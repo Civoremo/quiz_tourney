@@ -6,3 +6,10 @@ export {
   GET_QUIZZES_FAILURE,
   getAllQuizzes,
 } from "./quizzes";
+
+export {
+  GET_QUIZ_QUESTIONS_START,
+  GET_QUIZ_QUESTIONS_SUCCESS,
+  GET_QUIZ_QUESTIONS_FAILURE,
+  getAllQuizQuestions,
+} from "./quizQuestions";

@@ -6,6 +6,7 @@ import { getAllQuizQuestions } from "../actions/index";
 
 const QuizQuestions = (props) => {
   const { pickedQuizId } = props;
+  const [pickedAnswer, setPickedAnswer] = useState(null);
 
   const allQuizQuestions = useSelector(
     (state) => state.quizQuestions.quizQuestions
@@ -18,6 +19,7 @@ const QuizQuestions = (props) => {
 
   return (
     <div>
+      {console.log(pickedAnswer)}
       {allQuizQuestions.map((question) => {
         return (
           <div key={question.id}>
@@ -25,7 +27,16 @@ const QuizQuestions = (props) => {
             {question.options.map((answer, index) => {
               return (
                 <div key={index}>
-                  <div>A: {answer}</div>
+                  <div>
+                    A: {answer}{" "}
+                    <button
+                      onClick={() =>
+                        setPickedAnswer([pickedQuizId, question.id, index])
+                      }
+                    >
+                      Pick
+                    </button>
+                  </div>
                 </div>
               );
             })}

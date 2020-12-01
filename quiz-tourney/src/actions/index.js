@@ -13,3 +13,9 @@ export {
   GET_QUIZ_QUESTIONS_FAILURE,
   getAllQuizQuestions,
 } from "./quizQuestions";
+
+export {
+  GET_CHECK_ANSWER_TO_QUESTION_START,
+  GET_CHECK_ANSWER_TO_QUESTION_SUCCESS,
+  GET_CHECK_ANSWER_TO_QUESTION_FAILURE,
+} from "./checkQuestionAnswer";

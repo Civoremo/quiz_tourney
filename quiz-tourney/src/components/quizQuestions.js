@@ -8,6 +8,7 @@ import { checkAnswerToQuestion } from "../actions/checkQuestionAnswer";
 const QuizQuestions = (props) => {
   const { pickedQuizId } = props;
   const [pickedAnswer, setPickedAnswer] = useState(null);
+  const [viewedQuizQuestions, setViewedQuizQuestions] = useState([]);
 
   const allQuizQuestions = useSelector(
     (state) => state.quizQuestions.quizQuestions
@@ -18,7 +19,14 @@ const QuizQuestions = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (pickedQuizId != null) dispatch(getAllQuizQuestions(pickedQuizId));
+    if (!viewedQuizQuestions.includes(pickedQuizId)) {
+      setViewedQuizQuestions([...viewedQuizQuestions, pickedQuizId]);
+    }
+  }, [pickedQuizId]);
+
+  useEffect(() => {
+    if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId))
+      dispatch(getAllQuizQuestions(pickedQuizId));
   }, [pickedQuizId]);
 
   useEffect(() => {
@@ -26,35 +34,40 @@ const QuizQuestions = (props) => {
       dispatch(
         checkAnswerToQuestion(pickedAnswer[0], pickedAnswer[1], pickedAnswer[2])
       );
-    // console.log("answer response" + answerChecked);
   }, [pickedAnswer]);
 
   return (
     <div>
-      {console.log(pickedAnswer)}
-      {console.log("returned answer " + answerChecked)}
-      {allQuizQuestions.map((question) => {
-        return (
-          <div key={question.id}>
-            <div>Q: {question.question}</div>
-            {question.options.map((answer, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    A: {answer}{" "}
-                    <button
-                      onClick={() =>
-                        setPickedAnswer([pickedQuizId, question.id, index])
-                      }
-                    >
-                      Pick
-                    </button>
+      {console.log("stored quiz questions")}
+      {console.log(allQuizQuestions)}
+
+      {allQuizQuestions.map((questions) => {
+        if (questions[0] === pickedQuizId) {
+          console.log(questions);
+          return (
+            <div key={pickedQuizId}>
+              {/* {console.log("quiz key " + pickedQuizId)} */}
+              {questions[1].map((question) => {
+                return (
+                  <div key={question.id}>
+                    {/* {console.log("question key " + question.id)} */}
+                    <div>Q: {question.question}</div>
+                    <div>
+                      {question.options.map((answer, index) => {
+                        return (
+                          <div key={index}>
+                            {/* {console.log("answer key " + index)} */}
+                            <div>A: {answer}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        );
+                );
+              })}
+            </div>
+          );
+        }
       })}
     </div>
   );

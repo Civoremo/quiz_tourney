@@ -21,9 +21,17 @@ export default (state = initialState, action) => {
         error: null,
       };
     case GET_QUIZ_QUESTIONS_SUCCESS:
+      let newQuizQuestions = {
+        quizId: action.payload[0],
+        questions: action.payload[1],
+      };
+
       return {
         ...state,
-        quizQuestions: action.payload,
+        quizQuestions: [
+          ...state.quizQuestions,
+          [action.payload[0], action.payload[1]],
+        ],
         fetchingQuizQuestions: false,
       };
     case GET_QUIZ_QUESTIONS_FAILURE:

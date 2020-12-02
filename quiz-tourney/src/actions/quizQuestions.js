@@ -23,8 +23,8 @@ export const getAllQuizQuestions = (quizId) => (dispatch) => {
           tempPositionsArray.push(selectedPosition);
         }
       }
-      let newlyOrderedQuestionsArray = [];
 
+      let newlyOrderedQuestionsArray = [];
       for (let i = 0; i < 5; i++) {
         newlyOrderedQuestionsArray[i] = res.data[tempPositionsArray[i]];
       }
@@ -32,7 +32,7 @@ export const getAllQuizQuestions = (quizId) => (dispatch) => {
       // dispatch({ type: GET_QUIZ_QUESTIONS_SUCCESS, payload: res.data });
       dispatch({
         type: GET_QUIZ_QUESTIONS_SUCCESS,
-        payload: newlyOrderedQuestionsArray,
+        payload: [quizId, newlyOrderedQuestionsArray],
       });
     })
     .catch((err) => {

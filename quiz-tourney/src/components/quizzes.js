@@ -51,7 +51,7 @@ const Quizzes = (props) => {
 
   return (
     <div>
-      <div style={{ float: "left", width: "50%" }}>
+      {/* <div style={{ float: "left", width: "50%", border: "1px solid green" }}>
         {allQuizzes.map((quiz, index) => {
           return (
             // <div key={quiz.id}>
@@ -72,15 +72,6 @@ const Quizzes = (props) => {
             </div>
             <div>------------------------</div>
           </div>
-          {/* {picks.map((pick) => {
-            return (
-              <div key={pick}>
-                <div>Pick Number: {pick}</div>
-                <div>Quiz ID: {allQuizzes[pick].id}</div>
-                <div>Title: {allQuizzes[pick].title}</div>
-              </div>
-            );
-          })} */}
           {pickedArrayOrder.map((quiz, index) => {
             return (
               <div key={quiz.id}>
@@ -95,10 +86,10 @@ const Quizzes = (props) => {
           })}
         </div>
       </div>
-      <div style={{ float: "right", width: "50%" }}>
+      <div style={{ float: "right", width: "50%", border: "1px solid orange" }}>
         questions displayed here
-        <QuizQuestions pickedQuizId={pickedQuizId} />
-      </div>
+      </div> */}
+      <QuizQuestions pickedQuizId={pickedQuizId} quizzes={pickedArrayOrder} />
     </div>
   );
 };

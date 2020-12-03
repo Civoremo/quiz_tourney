@@ -5,8 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllQuizQuestions } from "../actions/index";
 import { checkAnswerToQuestion } from "../actions/checkQuestionAnswer";
 
+import QuizCanvas from "./quizCanvas";
+
 const QuizQuestions = (props) => {
-  const { pickedQuizId } = props;
+  const { pickedQuizId, quizzes } = props;
   const [pickedAnswer, setPickedAnswer] = useState(null);
   const [viewedQuizQuestions, setViewedQuizQuestions] = useState([]);
 
@@ -38,37 +40,41 @@ const QuizQuestions = (props) => {
 
   return (
     <div>
-      {console.log("stored quiz questions")}
-      {console.log(allQuizQuestions)}
-
-      {allQuizQuestions.map((questions) => {
-        if (questions[0] === pickedQuizId) {
-          console.log(questions);
-          return (
-            <div key={pickedQuizId}>
-              {/* {console.log("quiz key " + pickedQuizId)} */}
-              {questions[1].map((question) => {
-                return (
-                  <div key={question.id}>
-                    {/* {console.log("question key " + question.id)} */}
-                    <div>Q: {question.question}</div>
-                    <div>
-                      {question.options.map((answer, index) => {
-                        return (
-                          <div key={index}>
-                            {/* {console.log("answer key " + index)} */}
-                            <div>A: {answer}</div>
-                          </div>
-                        );
-                      })}
+      <div>
+        {console.log("stored quiz questions")}
+        {console.log(allQuizQuestions)}
+        {allQuizQuestions.map((questions) => {
+          if (questions[0] === pickedQuizId) {
+            console.log(questions);
+            return (
+              <div key={pickedQuizId}>
+                {/* {console.log("quiz key " + pickedQuizId)} */}
+                {questions[1].map((question) => {
+                  return (
+                    <div key={question.id}>
+                      {/* {console.log("question key " + question.id)} */}
+                      <div>Q: {question.question}</div>
+                      <div>
+                        {question.options.map((answer, index) => {
+                          return (
+                            <div key={index}>
+                              {/* {console.log("answer key " + index)} */}
+                              <div>A: {answer}</div>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          );
-        }
-      })}
+                  );
+                })}
+              </div>
+            );
+          }
+        })}
+      </div>
+      <div style={{ border: "2px solid red", margin: "auto" }}>
+        <QuizCanvas quizTopic={quizzes} />
+      </div>
     </div>
   );
 };

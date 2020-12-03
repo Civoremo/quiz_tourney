@@ -18,7 +18,7 @@ export const getAllQuizzes = () => (dispatch) => {
   })
     .then((res) => {
       const sortedRes = res.data.filter((quiz) => {
-        if (quiz.author === "nedim") {
+        if (quiz.topic === "Jeopardy") {
           return quiz;
         } else {
           return null;

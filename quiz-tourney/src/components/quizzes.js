@@ -17,8 +17,8 @@ const Quizzes = (props) => {
   function randomPicks() {
     let tempNumArray = [];
     if (allQuizzes.length > 0) {
-      while (tempNumArray.length < 5) {
-        let num = Math.floor(Math.random() * (allQuizzes.length - 1) + 1);
+      while (tempNumArray.length < 6) {
+        let num = Math.floor(Math.random() * allQuizzes.length);
         if (!tempNumArray.includes(num)) {
           tempNumArray.push(num);
         }

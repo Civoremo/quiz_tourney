@@ -2,8 +2,8 @@
 
 import React, { useRef, useEffect } from "react";
 
-const columns = 5;
-const rows = 5;
+const columns = 6;
+const rows = 6;
 const playboard = null;
 
 const QuizCanvas = (props) => {
@@ -62,7 +62,7 @@ const QuizCanvas = (props) => {
       pointsValue = 0;
       for (let j = 0; j < columns; j++) {
         if (j === 0) {
-          ctxText.font = "30px Arial";
+          ctxText.font = "20px Arial";
           ctxText.fillStyle = "white";
           ctxText.fillText(
             `${quizTopic[i].title}`,
@@ -116,9 +116,9 @@ const QuizCanvas = (props) => {
   useEffect(() => {
     const cnvsText = canvasTextRef.current;
     const ctxText = cnvsText.getContext("2d");
-
-    populateBoard(cnvsText, ctxText);
-    console.log("quiz topic " + quizTopic[0].title);
+    console.log("topics " + quizTopic);
+    if (quizTopic.length != 0) populateBoard(cnvsText, ctxText);
+    // console.log("quiz topic " + quizTopic[0].title);
     // return () => {};
   }, [quizTopic]);
 

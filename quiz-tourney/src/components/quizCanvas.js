@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 const columns = 6;
 const rows = 6;
@@ -10,10 +10,13 @@ const QuizCanvas = (props) => {
   const { quizTopic } = props;
   const canvasRef = useRef(null);
   const canvasTextRef = useRef(null);
+
   // const cnvs = canvasRef.current;
   // const ctx = cnvs.getContext("2d");
 
-  const drawPlayboard = (cnvx, ctx) => {
+  const drawPlayboard = (cnvx, ctx, position) => {
+    // console.log("drawing");
+
     let squareSizeWidth = ctx.canvas.width / columns;
     let squareSizeHeight = 500 / rows;
 
@@ -43,7 +46,19 @@ const QuizCanvas = (props) => {
           ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
           ctx.fillStyle = "blue";
           ctx.fill();
-          ctx.strokeStyle = "black";
+
+          if (
+            position.x > x + 2 &&
+            position.x < x + squareSizeWidth - 5 &&
+            position.y > y + 2 &&
+            position.y < y + squareSizeHeight - 5
+          ) {
+            ctx.strokeStyle = "yellow";
+            ctx.lineWidth = 2;
+          } else {
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+          }
           ctx.stroke();
           ctx.closePath();
         }
@@ -63,7 +78,7 @@ const QuizCanvas = (props) => {
       for (let j = 0; j < columns; j++) {
         if (j === 0) {
           ctxText.font = "20px Arial";
-          ctxText.fillStyle = "white";
+          ctxText.fillStyle = "whitesmoke";
           ctxText.fillText(
             `${quizTopic[i].title}`,
             titleSquareWidth * i + 35,
@@ -72,7 +87,7 @@ const QuizCanvas = (props) => {
         } else {
           pointsValue += 200;
           ctxText.font = "30px Arial";
-          ctxText.fillStyle = "white";
+          ctxText.fillStyle = "whitesmoke";
           ctxText.fillText(
             `$${pointsValue}`,
             titleSquareWidth * i + 45,
@@ -104,51 +119,77 @@ const QuizCanvas = (props) => {
     }
   };
 
-  useEffect(() => {
+  const mouseMoveHandler = (e) => {
+    let relativeOffset = canvasRef.current.getBoundingClientRect();
+    let relativeX = e.clientX - relativeOffset.left;
+    let relativeY = e.clientY - relativeOffset.top;
+
+    // console.log(relativeX, relativeY);
+
     const cnvs = canvasRef.current;
     const ctx = cnvs.getContext("2d");
 
-    drawPlayboard(cnvs, ctx);
+    drawPlayboard(cnvs, ctx, { x: relativeX, y: relativeY });
+  };
 
-    // return () => {};
+  useEffect(() => {
+    const cnvs = canvasRef.current;
+    const ctx = cnvs.getContext("2d");
+    let animationFrameId;
+    let interval;
+
+    const render = () => {
+      // drawPlayboard(cnvs, ctx);
+      if (canvasRef.current !== null)
+        document.addEventListener("mousemove", mouseMoveHandler, false);
+    };
+
+    const draw = () => {
+      interval = setInterval(() => {
+        render();
+      }, 10);
+    };
+
+    animationFrameId = requestAnimationFrame(draw);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
     const cnvsText = canvasTextRef.current;
     const ctxText = cnvsText.getContext("2d");
-    console.log("topics " + quizTopic);
-    if (quizTopic.length != 0) populateBoard(cnvsText, ctxText);
+    // console.log("topics " + quizTopic[0].topic);
+    if (quizTopic.length !== 0) populateBoard(cnvsText, ctxText);
     // console.log("quiz topic " + quizTopic[0].title);
     // return () => {};
   }, [quizTopic]);
 
   return (
-    <div style={{ border: "1px solid blue" }}>
-      {console.log(window.innerWidth)}
+    <div>
+      {/* {console.log(window.innerWidth)} */}
       <div
         style={{
-          position: "absolute",
-          left: `${window.innerWidth / 2 - 400}px`,
+          height: "750px",
+          background: "grey",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <canvas
           width={800}
           height={700}
           ref={canvasRef}
-          style={{ background: "black", zIndex: "0" }}
+          style={{ background: "#222", zIndex: "1", position: "absolute" }}
         />
-      </div>
-      <div
-        style={{
-          position: "absolute",
-          left: `${window.innerWidth / 2 - 400}px`,
-        }}
-      >
         <canvas
           width={800}
           height={700}
           ref={canvasTextRef}
-          style={{ zIndex: "1" }}
+          style={{ zIndex: "10", position: "absolute" }}
         />
       </div>
     </div>

@@ -25,6 +25,7 @@ export default (state = initialState, action) => {
         quizId: action.payload[0],
         questions: action.payload[1],
       };
+      console.log("newQuizQuestions: " + newQuizQuestions);
 
       return {
         ...state,

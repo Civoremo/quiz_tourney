@@ -72,7 +72,14 @@ const QuizQuestions = (props) => {
           }
         })}
       </div>
-      <div style={{ border: "2px solid red", margin: "auto" }}>
+      <div
+      // style={{
+      //   border: "2px solid red",
+      //   margin: "auto",
+      //   width: "800",
+      //   height: "700",
+      // }}
+      >
         <QuizCanvas quizTopic={quizzes} />
       </div>
     </div>

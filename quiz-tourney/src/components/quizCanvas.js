@@ -74,6 +74,8 @@ const QuizCanvas = (props) => {
     ctxText.linewidth = 1;
 
     for (let i = 0; i < rows; i++) {
+      // console.log(ctxText.measureText(quizTopic[i].title).width);
+      // console.log(ctxText.measureText(quizTopic[i].title).height);
       pointsValue = 0;
       for (let j = 0; j < columns; j++) {
         if (j === 0) {
@@ -81,17 +83,27 @@ const QuizCanvas = (props) => {
           ctxText.fillStyle = "whitesmoke";
           ctxText.fillText(
             `${quizTopic[i].title}`,
-            titleSquareWidth * i + 35,
+            // titleSquareWidth * i + 35,
+            titleSquareWidth * i +
+              titleSquareWidth / 2 -
+              ctxText.measureText(quizTopic[i].title).width / 2,
             titleSquareHeight / 2 + 10
           );
         } else {
           pointsValue += 200;
-          ctxText.font = "30px Arial";
+          ctxText.font = "25px Arial";
           ctxText.fillStyle = "whitesmoke";
+          let textHeight =
+            ctxText.measureText(pointsValue).actualBoundingBoxAscent +
+            ctxText.measureText(pointsValue).actualBoundingBoxDescent;
+          // console.log("height ", textHeight);
           ctxText.fillText(
             `$${pointsValue}`,
-            titleSquareWidth * i + 45,
-            titleSquareHeight * j + 60
+            titleSquareWidth * i -
+              5 +
+              titleSquareWidth / 2 -
+              ctxText.measureText(pointsValue).width / 2,
+            titleSquareHeight * j + titleSquareHeight / 2 + textHeight / 2
           );
         }
         // if (j === 0) {

@@ -8,7 +8,7 @@ import { checkAnswerToQuestion } from "../actions/checkQuestionAnswer";
 import QuizCanvas from "./quizCanvas";
 
 const QuizQuestions = (props) => {
-  const { pickedQuizId, quizzes } = props;
+  const { pickedQuizId, quizzes, setPickedQuizId } = props;
   const [pickedAnswer, setPickedAnswer] = useState(null);
   const [viewedQuizQuestions, setViewedQuizQuestions] = useState([]);
 
@@ -42,10 +42,10 @@ const QuizQuestions = (props) => {
     <div>
       <div>
         {console.log("stored quiz questions")}
-        {console.log(allQuizQuestions)}
+        {console.log("allQuizzesQuestions ", allQuizQuestions)}
         {allQuizQuestions.map((questions) => {
           if (questions[0] === pickedQuizId) {
-            console.log(questions);
+            console.log("questions ", questions);
             return (
               <div key={pickedQuizId}>
                 {/* {console.log("quiz key " + pickedQuizId)} */}
@@ -80,7 +80,12 @@ const QuizQuestions = (props) => {
       //   height: "700",
       // }}
       >
-        <QuizCanvas quizTopic={quizzes} />
+        <QuizCanvas
+          quizzes={quizzes}
+          setPickedQuizId={setPickedQuizId}
+          pickedQuizId={pickedQuizId}
+          allQuizQuestions={allQuizQuestions}
+        />
       </div>
     </div>
   );

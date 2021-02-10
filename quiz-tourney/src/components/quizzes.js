@@ -89,7 +89,11 @@ const Quizzes = (props) => {
       <div style={{ float: "right", width: "50%", border: "1px solid orange" }}>
         questions displayed here
       </div> */}
-      <QuizQuestions pickedQuizId={pickedQuizId} quizzes={pickedArrayOrder} />
+      <QuizQuestions
+        pickedQuizId={pickedQuizId}
+        quizzes={pickedArrayOrder}
+        setPickedQuizId={setPickedQuizId}
+      />
     </div>
   );
 };

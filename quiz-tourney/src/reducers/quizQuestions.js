@@ -21,11 +21,11 @@ export default (state = initialState, action) => {
         error: null,
       };
     case GET_QUIZ_QUESTIONS_SUCCESS:
-      let newQuizQuestions = {
-        quizId: action.payload[0],
-        questions: action.payload[1],
-      };
-      console.log("newQuizQuestions: " + newQuizQuestions);
+      // let newQuizQuestions = {
+      //   quizId: action.payload[0],
+      //   questions: action.payload[1],
+      // };
+      // console.log("newQuizQuestions: " + newQuizQuestions.quizId);
 
       return {
         ...state,

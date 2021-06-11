@@ -8,9 +8,10 @@ import { checkAnswerToQuestion } from "../actions/checkQuestionAnswer";
 import QuizCanvas from "./quizCanvas";
 
 const QuizQuestions = (props) => {
-  const { pickedQuizId, quizzes } = props;
+  const { pickedQuizId, quizzes, setPickedQuizId } = props;
   const [pickedAnswer, setPickedAnswer] = useState(null);
   const [viewedQuizQuestions, setViewedQuizQuestions] = useState([]);
+  const [questionPicked, setQuestionPicked] = useState(null);
 
   const allQuizQuestions = useSelector(
     (state) => state.quizQuestions.quizQuestions
@@ -21,15 +22,25 @@ const QuizQuestions = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("initial viewd " + viewedQuizQuestions.length);
     if (!viewedQuizQuestions.includes(pickedQuizId)) {
-      setViewedQuizQuestions([...viewedQuizQuestions, pickedQuizId]);
+      if (viewedQuizQuestions[0] === null) {
+        setViewedQuizQuestions([pickedQuizId]);
+      } else {
+        setViewedQuizQuestions([...viewedQuizQuestions, pickedQuizId]);
+      }
+    }
+
+    if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId)) {
+      dispatch(getAllQuizQuestions(pickedQuizId));
+      console.log("fetching questions");
     }
   }, [pickedQuizId]);
 
-  useEffect(() => {
-    if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId))
-      dispatch(getAllQuizQuestions(pickedQuizId));
-  }, [pickedQuizId]);
+  // useEffect(() => {
+  //   if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId))
+  //     dispatch(getAllQuizQuestions(pickedQuizId));
+  // }, [pickedQuizId]);
 
   useEffect(() => {
     if (pickedAnswer != null)
@@ -41,24 +52,20 @@ const QuizQuestions = (props) => {
   return (
     <div>
       <div>
-        {console.log("stored quiz questions")}
-        {console.log(allQuizQuestions)}
-        {allQuizQuestions.map((questions) => {
+        {/* {console.log("stored quiz questions")} */}
+        {/* {console.log("allQuizzesQuestions ", allQuizQuestions)} */}
+        {/* {allQuizQuestions.map((questions) => {
           if (questions[0] === pickedQuizId) {
-            console.log(questions);
             return (
               <div key={pickedQuizId}>
-                {/* {console.log("quiz key " + pickedQuizId)} */}
                 {questions[1].map((question) => {
                   return (
                     <div key={question.id}>
-                      {/* {console.log("question key " + question.id)} */}
                       <div>Q: {question.question}</div>
                       <div>
                         {question.options.map((answer, index) => {
                           return (
                             <div key={index}>
-                              {/* {console.log("answer key " + index)} */}
                               <div>A: {answer}</div>
                             </div>
                           );
@@ -70,10 +77,24 @@ const QuizQuestions = (props) => {
               </div>
             );
           }
-        })}
+        })} */}
       </div>
-      <div style={{ border: "2px solid red", margin: "auto" }}>
-        <QuizCanvas quizTopic={quizzes} />
+      <div
+      // style={{
+      //   border: "2px solid red",
+      //   margin: "auto",
+      //   width: "800",
+      //   height: "700",
+      // }}
+      >
+        <QuizCanvas
+          quizzes={quizzes}
+          setPickedQuizId={setPickedQuizId}
+          pickedQuizId={pickedQuizId}
+          allQuizQuestions={allQuizQuestions}
+          questionPicked={questionPicked}
+          setQuestionPicked={setQuestionPicked}
+        />
       </div>
     </div>
   );

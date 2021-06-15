@@ -3,7 +3,7 @@
 const columns = 6;
 const rows = 6;
 
-export const drawPlayboard = (cnvs, ctx, position, showCanvas, quizzes, questionsBoardClickHandler) => {
+export const drawPlayboard = (cnvs, ctx, position, showCanvas, setShowCanvas, quizzes, questionsBoardClickHandler) => {
 	// console.log("drawing");
 
 	let squareSizeWidth = ctx.canvas.width / columns;
@@ -43,16 +43,19 @@ export const drawPlayboard = (cnvs, ctx, position, showCanvas, quizzes, question
 					position.y < y + squareSizeHeight - 5 &&
 					showCanvas === false
 				) {
+					// console.log('HOVERING OVER QUIZ VALUE');
 					ctx.strokeStyle = 'yellow';
 					ctx.lineWidth = 2;
 					// console.log("arrayLocation ", i, j);
 					// console.log(quizzes[i]);
 					// console.log("pickedQuizID ", pickedQuizId);
-					if (quizzes[i] !== undefined && showCanvas === false) {
-						document.addEventListener(
+					if (quizzes[i] !== undefined) {
+						document.getElementById('quiz-selection-canvas').addEventListener(
 							'click',
 							(event) => {
-								questionsBoardClickHandler(event, i, j);
+								console.log('CLICKED QUIZ VALUE');
+								// questionsBoardClickHandler(event, i, j);
+
 								// console.log("visibility: ", showCanvas);
 								// event.preventDefault();
 								// setPickedQuizId(quizzes[i].id);

@@ -201,8 +201,16 @@ const QuizCanvas = (props) => {
 		const ctx = cnvs.getContext('2d');
 
 		if (!showCanvas) {
-			console.log('CANVAS', showCanvas);
-			drawPlayboard(cnvs, ctx, { x: relativeX, y: relativeY }, showCanvas, quizzes, questionsBoardClickHandler);
+			// console.log('CANVAS', showCanvas);
+			drawPlayboard(
+				cnvs,
+				ctx,
+				{ x: relativeX, y: relativeY },
+				showCanvas,
+				setShowCanvas,
+				quizzes,
+				questionsBoardClickHandler
+			);
 		}
 	};
 
@@ -235,7 +243,7 @@ const QuizCanvas = (props) => {
 		const draw = () => {
 			interval = setInterval(() => {
 				render();
-			}, 10);
+			}, 100);
 		};
 		animationFrameId = requestAnimationFrame(draw);
 
@@ -326,8 +334,15 @@ const QuizCanvas = (props) => {
 						position: 'absolute'
 					}}
 				/>
-				<canvas width={800} height={700} ref={canvasTextRef} style={{ zIndex: '10', position: 'absolute' }} />
 				<canvas
+					id='quiz-selection-canvas'
+					width={800}
+					height={700}
+					ref={canvasTextRef}
+					style={{ zIndex: '10', position: 'absolute' }}
+				/>
+				<canvas
+					id='quiz-question-canvas'
 					width={796}
 					height={420}
 					ref={canvasQuizQuestion}

@@ -19,14 +19,14 @@ const QuizCanvas = (props) => {
 	// const cnvs = canvasRef.current;
 	// const ctx = cnvs.getContext("2d");
 
-	const questionsBoardClickHandler = (i, j) => {
-		// event.preventDefault();
+	const questionsBoardClickHandler = (event, i, j) => {
+		event.preventDefault();
 		if (!showCanvas) {
 			console.log('visibility: ', showCanvas);
 			setPickedQuizId(quizzes[i].id);
 			setQuestionPicked(j - 1);
-			// setShowCanvas(true);
-			setShowCanvas(!showCanvas);
+			setShowCanvas(true);
+			// setShowCanvas(!showCanvas);
 		} else {
 			console.log('STOPPED EVENT');
 		}
@@ -200,8 +200,10 @@ const QuizCanvas = (props) => {
 		const cnvs = canvasRef.current;
 		const ctx = cnvs.getContext('2d');
 
-		if (!showCanvas)
+		if (!showCanvas) {
+			console.log('CANVAS', showCanvas);
 			drawPlayboard(cnvs, ctx, { x: relativeX, y: relativeY }, showCanvas, quizzes, questionsBoardClickHandler);
+		}
 	};
 
 	// initial drawing of the board, not populating any of the text
@@ -250,10 +252,13 @@ const QuizCanvas = (props) => {
 		if (quizzes.length !== 0) populateBoard(ctxText, quizzes);
 	};
 
-	useEffect(() => {
-		populateBoardText();
-		// return () => {};
-	});
+	useEffect(
+		() => {
+			populateBoardText();
+			// return () => {};
+		},
+		[ quizzes ]
+	);
 
 	const displayQuestionAndAnswers = (quizId, questionId) => {
 		// console.log("FILTERING");

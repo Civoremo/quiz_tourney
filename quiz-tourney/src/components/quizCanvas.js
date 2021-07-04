@@ -40,19 +40,12 @@ const QuizCanvas = props => {
         for (let j = 0; j < columns; j++) {
           const x = sqrSizeWidth * j;
           const y = sqrSizeHeight * (i + 1);
-          // console.log("row", i, "at".x, "column", j, "at", y);
           console.log({ quiz: quizzes[j].title, Q: i, x, y });
 
           let square = {
-            row: i - 1,
-            column: j,
-            selected: false,
-            i,
-            j,
-            // xTop: y + 2,
-            // xEnd: y + 2 + (sqrSizeHeight - 5),
-            // yTop: x + 2,
-            // yEnd: x + 2 + (sqrSizeWidth - 5),
+            row: i - 1, // question index
+            column: j, // quiz index
+            selected: false, // already clicked
             xTop: x + 2,
             xEnd: x + 2 + sqrSizeWidth,
             yTop: y + 2,
@@ -79,12 +72,7 @@ const QuizCanvas = props => {
         event.stopPropagation();
         relativeX = event.clientX - relativeOffset.left;
         relativeY = event.clientY - relativeOffset.top;
-        // console.log(playGrid);
-        // console.log("relative", relativeX, { relativeY, y: event.clientY });
-        // console.log("clicked", mousePosition);
-        // console.log("x pos", event.clientX);
-        // console.log("Y pos", event.clientY);
-        // if (playGrid.length > 0) {
+
         for (let pos in playGrid) {
           if (
             relativeX > playGrid[pos].xTop &&
@@ -115,9 +103,6 @@ const QuizCanvas = props => {
             console.log(playGrid[pos]);
           }
         }
-        // } else {
-        //   console.log("no data");
-        // }
       },
       false
     );

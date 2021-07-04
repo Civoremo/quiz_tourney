@@ -32,29 +32,38 @@ const QuizCanvas = props => {
     const rows = 6;
 
     let sqrSizeWidth = cavnasHoverRef.current.width / columns;
-    let sqrSizeHeight = cavnasHoverRef.current.height / rows;
+    let sqrSizeHeight = 500 / rows;
 
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < columns; j++) {
-        const x = sqrSizeWidth * i;
-        const y = sqrSizeHeight * j;
-        // console.log("row", i, "at".x, "column", j, "at", y);
+    console.log("QUIZZES", quizzes);
+    if (quizzes.length !== 0) {
+      for (let i = 1; i < rows; i++) {
+        for (let j = 0; j < columns; j++) {
+          const x = sqrSizeWidth * j;
+          const y = sqrSizeHeight * (i + 1);
+          // console.log("row", i, "at".x, "column", j, "at", y);
+          console.log({ quiz: quizzes[j].title, Q: i, x, y });
 
-        let square = {
-          row: i,
-          selected: false,
-          i,
-          j,
-          xTop: y + 2,
-          xEnd: y + 2 + (sqrSizeHeight - 5),
-          yTop: x + 2,
-          yEnd: x + 2 + (sqrSizeWidth - 5),
-          quiz: quizzes[j],
-        };
-        tempArray.push(square);
+          let square = {
+            row: i - 1,
+            column: j,
+            selected: false,
+            i,
+            j,
+            // xTop: y + 2,
+            // xEnd: y + 2 + (sqrSizeHeight - 5),
+            // yTop: x + 2,
+            // yEnd: x + 2 + (sqrSizeWidth - 5),
+            xTop: x + 2,
+            xEnd: x + 2 + sqrSizeWidth,
+            yTop: y + 2,
+            yEnd: y + 2 + sqrSizeHeight,
+            quiz: quizzes[j],
+          };
+          tempArray.push(square);
+        }
       }
+      setPlayGrid(tempArray);
     }
-    setPlayGrid(tempArray);
   }, [quizzes]);
 
   useEffect(() => {
@@ -67,6 +76,7 @@ const QuizCanvas = props => {
     cnvs.addEventListener(
       "click",
       event => {
+        event.stopPropagation();
         relativeX = event.clientX - relativeOffset.left;
         relativeY = event.clientY - relativeOffset.top;
         // console.log(playGrid);
@@ -74,34 +84,40 @@ const QuizCanvas = props => {
         // console.log("clicked", mousePosition);
         // console.log("x pos", event.clientX);
         // console.log("Y pos", event.clientY);
-        if (playGrid.length > 0) {
-          for (let pos in playGrid) {
-            if (
-              relativeX > playGrid[pos].xTop &&
-              relativeX < playGrid[pos].xEnd &&
-              event.clientY > playGrid[pos].yTop &&
-              event.clientY < playGrid[pos].yEnd &&
-              pos !== 0 &&
-              playGrid[pos].quiz !== undefined
-            ) {
-              console.log({
-                xT: playGrid[pos].xTop,
-                xE: playGrid[pos].xEnd,
-                yT: playGrid[pos].yTop,
-                yE: playGrid[pos].yEnd,
-              });
-              console.log(
-                "square clicked",
-                playGrid[pos].quiz.title,
-                "question",
-                playGrid[pos].j
-              );
-              console.log(playGrid[pos]);
-            }
+        // if (playGrid.length > 0) {
+        for (let pos in playGrid) {
+          if (
+            relativeX > playGrid[pos].xTop &&
+            relativeX < playGrid[pos].xEnd &&
+            event.clientY > playGrid[pos].yTop &&
+            event.clientY < playGrid[pos].yEnd &&
+            // pos !== 0 &&
+            playGrid[pos].quiz !== undefined
+          ) {
+            console.log({
+              xM: relativeX,
+              yM: relativeY,
+              xT: parseInt(playGrid[pos].xTop),
+              xE: parseInt(playGrid[pos].xEnd),
+              yT: parseInt(playGrid[pos].yTop),
+              yE: parseInt(playGrid[pos].yEnd),
+              quiz: playGrid[pos].quiz.title,
+              question: playGrid[pos].row,
+            });
+            console.log(
+              "square clicked",
+              "\nQuiz index",
+              playGrid[pos].column,
+              playGrid[pos].quiz.title,
+              "question",
+              playGrid[pos].row
+            );
+            console.log(playGrid[pos]);
           }
-        } else {
-          console.log("no data");
         }
+        // } else {
+        //   console.log("no data");
+        // }
       },
       false
     );

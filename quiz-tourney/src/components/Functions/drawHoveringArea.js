@@ -31,12 +31,13 @@ export const drawHoveringArea = (cnvs, ctx, mousePosition) => {
             ctx.strokeStyle = "yellow";
             ctx.stroke();
           }
-        } else {
-          ctx.beginPath();
-          ctx.rect(x + 2, y + 2, sqrSizeWidth - 5, sqrSizeHeight - 5);
-          ctx.strokeStyle = "black";
-          ctx.stroke();
         }
+        // else {
+        //   ctx.beginPath();
+        //   ctx.rect(x + 2, y + 2, sqrSizeWidth - 5, sqrSizeHeight - 5);
+        //   ctx.strokeStyle = "red";
+        //   ctx.stroke();
+        // }
       }
     }
     // ctx.stroke();

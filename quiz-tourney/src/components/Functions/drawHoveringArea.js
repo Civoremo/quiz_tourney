@@ -25,7 +25,7 @@ export const drawHoveringArea = (cnvs, ctx, mousePosition) => {
         // console.log("grip position", { x, y });
         if (mousePosition.x > x && mousePosition.x < x + sqrSizeWidth - 5) {
           if (mousePosition.y > y && mousePosition.y < y + sqrSizeHeight - 5) {
-            console.log("inside", { mousePosition, x }, { i, j });
+            // console.log("inside", { mousePosition, x }, { i, j });
             ctx.beginPath();
             ctx.rect(x + 2, y + 2, sqrSizeWidth - 5, sqrSizeHeight - 5);
             ctx.strokeStyle = "yellow";
@@ -37,21 +37,6 @@ export const drawHoveringArea = (cnvs, ctx, mousePosition) => {
           ctx.strokeStyle = "black";
           ctx.stroke();
         }
-
-        // if (
-        //   mousePosition.x > x &&
-        //   mousePosition.x < x + sqrSizeWidth &&
-        //   mousePosition.u > y &&
-        //   mousePosition.y < y + sqrSizeHeight
-        // ) {
-        //   ctx.beginPath();
-        //   ctx.rect(x + 2, y + 2, sqrSizeWidth - 5, sqrSizeHeight - 5);
-        //   ctx.strokeStyle = "yellow";
-        // } else {
-        //   ctx.beginPath();
-        //   ctx.rect(x + 2, y + 2, sqrSizeWidth - 5, sqrSizeHeight - 5);
-        //   ctx.strokeStyle = "black";
-        // }
       }
     }
     // ctx.stroke();

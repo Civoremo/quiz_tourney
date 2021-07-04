@@ -15,14 +15,97 @@ const QuizCanvas = props => {
   const { quizzes, pickedQuizId, setPickedQuizId, allQuizQuestions } = props;
   const { questionPicked, setQuestionPicked } = props;
   const [showCanvas, setShowCanvas] = useState(false);
+  const [clickedQuiz, setClickedQuiz] = useState(false);
   // const [questionPicked, setQuestionPicked] = useState(null);
   const canvasRef = useRef(null);
   const canvasTextRef = useRef(null);
   const canvasQuizQuestion = useRef(null);
   const cavnasHoverRef = useRef(null);
+  const [playGrid, setPlayGrid] = useState([]);
 
   // const cnvs = canvasRef.current;
   // const ctx = cnvs.getContext("2d");
+
+  useEffect(() => {
+    let tempArray = [];
+    const columns = 6;
+    const rows = 6;
+
+    let sqrSizeWidth = cavnasHoverRef.current.width / columns;
+    let sqrSizeHeight = cavnasHoverRef.current.height / rows;
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        const x = sqrSizeWidth * i;
+        const y = sqrSizeHeight * j;
+        // console.log("row", i, "at".x, "column", j, "at", y);
+
+        let square = {
+          row: i,
+          selected: false,
+          i,
+          j,
+          xTop: y + 2,
+          xEnd: y + 2 + (sqrSizeHeight - 5),
+          yTop: x + 2,
+          yEnd: x + 2 + (sqrSizeWidth - 5),
+          quiz: quizzes[j],
+        };
+        tempArray.push(square);
+      }
+    }
+    setPlayGrid(tempArray);
+  }, [quizzes]);
+
+  useEffect(() => {
+    const cnvs = cavnasHoverRef.current;
+    const ctx = cnvs.getContext("2d");
+    let relativeOffset = cavnasHoverRef.current.getBoundingClientRect();
+    let relativeX;
+    let relativeY;
+
+    cnvs.addEventListener(
+      "click",
+      event => {
+        relativeX = event.clientX - relativeOffset.left;
+        relativeY = event.clientY - relativeOffset.top;
+        // console.log(playGrid);
+        // console.log("relative", relativeX, { relativeY, y: event.clientY });
+        // console.log("clicked", mousePosition);
+        // console.log("x pos", event.clientX);
+        // console.log("Y pos", event.clientY);
+        if (playGrid.length > 0) {
+          for (let pos in playGrid) {
+            if (
+              relativeX > playGrid[pos].xTop &&
+              relativeX < playGrid[pos].xEnd &&
+              event.clientY > playGrid[pos].yTop &&
+              event.clientY < playGrid[pos].yEnd &&
+              pos !== 0 &&
+              playGrid[pos].quiz !== undefined
+            ) {
+              console.log({
+                xT: playGrid[pos].xTop,
+                xE: playGrid[pos].xEnd,
+                yT: playGrid[pos].yTop,
+                yE: playGrid[pos].yEnd,
+              });
+              console.log(
+                "square clicked",
+                playGrid[pos].quiz.title,
+                "question",
+                playGrid[pos].j
+              );
+              console.log(playGrid[pos]);
+            }
+          }
+        } else {
+          console.log("no data");
+        }
+      },
+      false
+    );
+  }, [playGrid]);
 
   const questionsBoardClickHandler = (event, i, j) => {
     event.preventDefault();
@@ -37,164 +120,6 @@ const QuizCanvas = props => {
     }
   };
 
-  // const drawPlayboard = (cnvs, ctx, position) => {
-  //   // console.log("drawing");
-
-  //   let squareSizeWidth = ctx.canvas.width / columns;
-  //   let squareSizeHeight = 500 / rows;
-
-  //   let titleSquareWidth = ctx.canvas.width / columns;
-  //   let titleSquareHeight = 500 / rows;
-  //   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  //   ctx.linewidth = 1;
-
-  //   for (let i = 0; i < rows; i++) {
-  //     for (let j = 0; j < columns; j++) {
-  //       if (j === 0) {
-  //         let x = titleSquareWidth * i;
-  //         let y = titleSquareHeight * j;
-
-  //         ctx.beginPath();
-  //         ctx.rect(x + 2, y + 2, titleSquareWidth - 5, titleSquareHeight - 5);
-  //         ctx.fillStyle = "darkblue";
-  //         ctx.fill();
-  //         ctx.strokeStyle = "black";
-  //         ctx.stroke();
-  //         ctx.closePath();
-  //       } else {
-  //         let x = squareSizeWidth * i;
-  //         let y = squareSizeHeight * j;
-
-  //         ctx.beginPath();
-  //         ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
-  //         ctx.fillStyle = "blue";
-  //         ctx.fill();
-
-  //         if (
-  //           position.x > x + 2 &&
-  //           position.x < x + squareSizeWidth - 5 &&
-  //           position.y > y + 2 &&
-  //           position.y < y + squareSizeHeight - 5 &&
-  //           showCanvas === false
-  //         ) {
-  //           ctx.strokeStyle = "yellow";
-  //           ctx.lineWidth = 2;
-  //           // console.log("arrayLocation ", i, j);
-  //           // console.log(quizzes[i]);
-  //           // console.log("pickedQuizID ", pickedQuizId);
-  //           if (quizzes[i] !== undefined && showCanvas === false) {
-  //             document.addEventListener(
-  //               "click",
-  //               (event) => {
-  //                 questionsBoardClickEvent(i, j);
-  //                 // console.log("visibility: ", showCanvas);
-  //                 // event.preventDefault();
-  //                 // setPickedQuizId(quizzes[i].id);
-  //                 // setQuestionPicked(j - 1);
-  //                 // setShowCanvas(true);
-  //                 // displayQuestionAndAnswers(quizzes[i].id);
-  //               },
-  //               false
-  //             );
-  //           }
-  //         } else {
-  //           ctx.strokeStyle = "black";
-  //           ctx.lineWidth = 2;
-  //         }
-  //         ctx.stroke();
-  //         ctx.closePath();
-  //       }
-  //     }
-  //   }
-  // };
-
-  // const populateBoard = (ctxText) => {
-  //   let titleSquareWidth = ctxText.canvas.width / columns;
-  //   let titleSquareHeight = 500 / rows;
-  //   let pointsValue = 0;
-  //   ctxText.clearRect(0, 0, ctxText.canvas.width, ctxText.canvas.height);
-  //   ctxText.linewidth = 1;
-
-  //   for (let i = 0; i < rows; i++) {
-  //     // console.log(ctxText.measureText(quizzes[i].title).width);
-  //     // console.log(ctxText.measureText(quizzes[i].title).height);
-  //     pointsValue = 0;
-  //     for (let j = 0; j < columns; j++) {
-  //       if (j === 0) {
-  //         let linesOfText = quizzes[i].title.split(" ");
-  //         // console.log("lines ", linesOfText);
-  //         // let titleHeight =
-  //         //   ctxText.measureText(quizzes[i].title).actualBoundingBoxAscent +
-  //         //   ctxText.measureText(quizzes[i].title).actualBoundingBoxDescent;
-  //         // console.log("title height ", titleHeight);
-  //         let titleHeight = 18;
-
-  //         ctxText.font = "18px Arial";
-  //         ctxText.fillStyle = "whitesmoke";
-
-  //         if (linesOfText.length > 1) {
-  //           for (let t = 0; t < linesOfText.length; t++) {
-  //             ctxText.fillText(
-  //               `${linesOfText[t]}`,
-  //               titleSquareWidth * i +
-  //                 titleSquareWidth / 2 -
-  //                 ctxText.measureText(linesOfText[t]).width / 2,
-  //               titleSquareHeight / linesOfText.length + titleHeight * t,
-  //               115
-  //             );
-  //           }
-  //         } else {
-  //           ctxText.fillText(
-  //             `${quizzes[i].title}`,
-  //             titleSquareWidth * i +
-  //               titleSquareWidth / 2 -
-  //               ctxText.measureText(quizzes[i].title).width / 2,
-  //             titleSquareHeight / 2 + titleHeight / 2,
-  //             115
-  //           );
-  //         }
-  //       } else {
-  //         pointsValue += 200;
-  //         ctxText.font = "25px Arial";
-  //         ctxText.fillStyle = "whitesmoke";
-  //         let textHeight =
-  //           ctxText.measureText(pointsValue).actualBoundingBoxAscent +
-  //           ctxText.measureText(pointsValue).actualBoundingBoxDescent;
-  //         // console.log("height ", textHeight);
-  //         ctxText.fillText(
-  //           `$${pointsValue}`,
-  //           titleSquareWidth * i -
-  //             5 +
-  //             titleSquareWidth / 2 -
-  //             ctxText.measureText(pointsValue).width / 2,
-  //           titleSquareHeight * j + titleSquareHeight / 2 + textHeight / 2
-  //         );
-  //       }
-  //       // if (j === 0) {
-  //       //   let x = titleSquareWidth * i;
-  //       //   let y = titleSquareHeight * j;
-  //       //   ctx.beginPath();
-  //       //   ctx.rect(x + 2, y + 2, titleSquareWidth - 5, titleSquareHeight - 5);
-  //       //   ctx.fillStyle = "darkblue";
-  //       //   ctx.fill();
-  //       //   ctx.strokeStyle = "black";
-  //       //   ctx.stroke();
-  //       //   ctx.closePath();
-  //       // } else {
-  //       //   let x = squareSizeWidth * i;
-  //       //   let y = squareSizeHeight * j;
-  //       //   ctx.beginPath();
-  //       //   ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
-  //       //   ctx.fillStyle = "blue";
-  //       //   ctx.fill();
-  //       //   ctx.strokeStyle = "black";
-  //       //   ctx.stroke();
-  //       //   ctx.closePath();
-  //       // }
-  //     }
-  //   }
-  // };
-
   const mouseMoveHandler = e => {
     // console.log("canvas", cavnasHoverRef.current);
     if (cavnasHoverRef.current.getBoundingClientRect() !== null) {
@@ -208,38 +133,20 @@ const QuizCanvas = props => {
       const ctx = cnvs.getContext("2d");
 
       const mousePosition = { x: relativeX, y: relativeY };
+      //   console.log("M-position", mousePosition);
       drawSelectedArea(mousePosition);
     } else {
       console.log("canvas has not finished loading");
     }
-
-    // if (
-    //   !showCanvas &&
-    //   relativeX > 0 &&
-    //   relativeX < 800 &&
-    //   relativeY > 85 &&
-    //   relativeY < 500
-    // ) {
-    //   // console.log('CANVAS', showCanvas);
-    //   console.log("canvas drawn with mouse position", relativeX, relativeY);
-    //   drawPlayboard(
-    //     cnvs,
-    //     ctx,
-    //     { x: relativeX, y: relativeY },
-    //     showCanvas,
-    //     setShowCanvas,
-    //     quizzes,
-    //     questionsBoardClickHandler
-    //   );
-    // } else {
-    //   console.log("canvas drawn without mouse");
-    //   drawPlayboard(cnvs, ctx);
-    // }
+  };
+  const pullUpClickedQuiz = () => {
+    console.log("button clicked");
   };
 
   const drawSelectedArea = mousePosition => {
     const cnvs = cavnasHoverRef.current;
     const ctx = cnvs.getContext("2d");
+
     drawHoveringArea(cnvs, ctx, mousePosition);
   };
 
@@ -256,6 +163,13 @@ const QuizCanvas = props => {
       //   quizzes,
       //   questionsBoardClickHandler
     );
+
+    if (cavnasHoverRef.current !== null)
+      cavnasHoverRef.current.addEventListener(
+        "mousemove",
+        mouseMoveHandler,
+        false
+      );
     return () => {};
   }, []);
 
@@ -268,22 +182,22 @@ const QuizCanvas = props => {
 
     const render = () => {
       // drawPlayboard(cnvs, ctx);
-      if (canvasRef.current !== null)
-        // canvasRef.current.addEventListener(
-        //   "mousemove",
-        //   mouseMoveHandler,
-        //   false
-        // );
-        cavnasHoverRef.current.addEventListener(
-          "mousemove",
-          mouseMoveHandler,
-          false
-        );
+      // if (canvasRef.current !== null)
+      // canvasRef.current.addEventListener(
+      //   "mousemove",
+      //   mouseMoveHandler,
+      //   false
+      // );
+      // cavnasHoverRef.current.addEventListener(
+      //   "mousemove",
+      //   mouseMoveHandler,
+      //   false
+      // );
     };
     const draw = () => {
       interval = setInterval(() => {
         render();
-      }, 100);
+      }, 1000);
     };
     animationFrameId = requestAnimationFrame(draw);
 

@@ -8,7 +8,7 @@ export const drawHoveringArea = (cnvs, ctx, mousePosition) => {
   let sqrSizeHeight = 500 / rows;
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  ctx.linewidth = 1;
+  ctx.lineWidth = 3;
 
   if (
     mousePosition.x > -10 &&

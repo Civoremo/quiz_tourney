@@ -443,7 +443,7 @@ const QuizCanvas = props => {
             zIndex: "15",
             position: "absolute",
             top: "75px",
-            border: "2px solid orange",
+            // border: "2px solid orange",
           }}
         />
         <canvas
@@ -457,7 +457,7 @@ const QuizCanvas = props => {
             visibility: showCanvas ? "visible" : "hidden",
             position: "absolute",
             top: "155px",
-            border: "1px solid whitesmoke",
+            // border: "1px solid whitesmoke",
           }}
         />
         <canvas
@@ -470,7 +470,7 @@ const QuizCanvas = props => {
             visibility: showCanvas ? "visible" : "hidden",
             position: "absolute",
             top: "155px",
-            border: "2px solid green",
+            // border: "2px solid green",
           }}
         />
       </div>

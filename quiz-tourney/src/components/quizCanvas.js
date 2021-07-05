@@ -131,6 +131,46 @@ const QuizCanvas = props => {
     // console.log(playGrid);
   }, [playGrid]);
 
+  useEffect(() => {
+    const cnvs = canvasAnswerHoverRef.current;
+    let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
+    let relativeX;
+    let relativeY;
+
+    cnvs.addEventListener(
+      "click",
+      event => {
+        event.stopPropagation();
+        relativeX = event.clientX - relativeOffset.left;
+        relativeY = event.clientY - relativeOffset.top;
+        // console.log("realtive", { x: relativeX, y: relativeY });
+
+        if (showCanvas) {
+          for (let pos in answerGrid) {
+            if (
+              relativeX > answerGrid[pos].xStart &&
+              relativeX < answerGrid[pos].xEnd &&
+              relativeY > answerGrid[pos].yStart + 80 &&
+              relativeY < answerGrid[pos].yEnd + 80
+              // event.clientX > 100 &&
+              // event.clientX < 700 &&
+              // event.clientY > 225 &&
+              // event.clientY < 350
+            ) {
+              console.log(
+                "answer index Picked",
+                pos,
+                { x: event.clientX, y: event.clientY },
+                answerGrid
+              );
+            }
+          }
+        }
+      },
+      false
+    );
+  }, [showCanvas]);
+
   const mouseMoveHandler = e => {
     // console.log("canvas", canvasHoverRef.current);
     if (canvasHoverRef.current.getBoundingClientRect() !== null) {
@@ -171,7 +211,7 @@ const QuizCanvas = props => {
 
       // if (showCanvas) {
       // console.log("answer show", mousePosition);
-      answerHoverArea(cnvs, ctx, mousePosition, answerGrid);
+      answerHoverArea(cnvs, ctx, mousePosition, answerGrid, showCanvas);
       // }
     }
   };
@@ -282,11 +322,11 @@ const QuizCanvas = props => {
 
     if (filteredQuiz.length !== 0) {
       // console.log("filtered ", filteredQuiz);
-      // console.log(
-      //   "selected question ",
-      //   filteredQuiz[0][1][questionId].question
-      // );
-      // console.log("Answers", filteredQuiz[0][1][questionId].options);
+      console.log(
+        "selected question ",
+        filteredQuiz[0][1][questionId].question
+      );
+      console.log("Answers", filteredQuiz[0][1][questionId].options);
       console.log(
         "questionLength",
         ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
@@ -301,25 +341,6 @@ const QuizCanvas = props => {
       filteredQuiz[0][1][questionId].options.forEach((answer, index) => {
         // ctxQuestion.fillText(`${answer}`, 125, 125 + index * 25);
 
-        // if (index < 2) {
-        //   ctxQuestion.beginPath();
-        //   ctxQuestion.rect(100, 225 + index * 70, 275, 50);
-        //   ctxQuestion.fillStyle = "#0c76cc";
-        //   ctxQuestion.fill();
-        //   ctxQuestion.closePath();
-        //   ctxQuestion.fillStyle = "#fff";
-        //   ctxQuestion.textAlign = "start";
-        //   ctxQuestion.fillText(`${answer}`, 125, 258 + index * 70);
-        // } else {
-        //   ctxQuestion.beginPath();
-        //   ctxQuestion.rect(425, 225 + (index % 2) * 70, 275, 50);
-        //   ctxQuestion.fillStyle = "#0c76cc";
-        //   ctxQuestion.fill();
-        //   ctxQuestion.closePath();
-        //   ctxQuestion.fillStyle = "#fff";
-        //   ctxQuestion.textAlign = "start";
-        //   ctxQuestion.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
-        // }
         if (index < 2) {
           ctxQuestion.beginPath();
           ctxQuestion.rect(

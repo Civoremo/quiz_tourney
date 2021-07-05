@@ -1,8 +1,15 @@
 /** @format */
 
-export const answerHoverArea = (cnvs, ctx, mousePosition, answerGrid) => {
+export const answerHoverArea = (
+  cnvs,
+  ctx,
+  mousePosition,
+  answerGrid,
+  showCanvas
+) => {
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.lineWidth = 3;
+
   //   console.log(mousePosition);
 
   for (let pos in answerGrid) {

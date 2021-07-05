@@ -81,7 +81,7 @@ const QuizCanvas = props => {
             relativeX < playGrid[pos].xEnd &&
             relativeY > playGrid[pos].yTop &&
             relativeY < playGrid[pos].yEnd &&
-            relativeY > 2 &&
+            relativeY > 85 &&
             relativeY < 490 &&
             playGrid[pos].quiz !== undefined &&
             !showCanvas &&
@@ -103,7 +103,8 @@ const QuizCanvas = props => {
               playGrid[pos].column,
               playGrid[pos].quiz.title,
               "question",
-              playGrid[pos].row
+              playGrid[pos].row,
+              playGrid
               //   "playgrid",
               //   { yTop: playGrid[pos].yTop, yEnd: playGrid[pos].yEnd },
               //   playGrid[pos]
@@ -240,8 +241,8 @@ const QuizCanvas = props => {
       ctxQuestion.canvas.height
     );
 
-    ctxQuestion.font = "20px Ariel";
-    ctxQuestion.fillStyle = "red";
+    ctxQuestion.font = "14pt Arial";
+    ctxQuestion.fillStyle = "#fff";
 
     if (filteredQuiz.length !== 0) {
       console.log("filtered ", filteredQuiz);
@@ -250,13 +251,39 @@ const QuizCanvas = props => {
         filteredQuiz[0][1][questionId].question
       );
       console.log("Answers", filteredQuiz[0][1][questionId].options);
+      console.log(
+        "questionLength",
+        ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
+      );
+      ctxQuestion.textAlign = "center";
       ctxQuestion.fillText(
         `${filteredQuiz[0][1][questionId].question}`,
-        100,
+        400,
         100
       );
+
       filteredQuiz[0][1][questionId].options.forEach((answer, index) => {
-        ctxQuestion.fillText(`${answer}`, 125, 125 + index * 25);
+        // ctxQuestion.fillText(`${answer}`, 125, 125 + index * 25);
+
+        if (index < 2) {
+          ctxQuestion.beginPath();
+          ctxQuestion.rect(100, 225 + index * 70, 275, 50);
+          ctxQuestion.fillStyle = "#0c76cc";
+          ctxQuestion.fill();
+          ctxQuestion.closePath();
+          ctxQuestion.fillStyle = "#fff";
+          ctxQuestion.textAlign = "start";
+          ctxQuestion.fillText(`${answer}`, 125, 258 + index * 70);
+        } else {
+          ctxQuestion.beginPath();
+          ctxQuestion.rect(425, 225 + (index % 2) * 70, 275, 50);
+          ctxQuestion.fillStyle = "#0c76cc";
+          ctxQuestion.fill();
+          ctxQuestion.closePath();
+          ctxQuestion.fillStyle = "#fff";
+          ctxQuestion.textAlign = "start";
+          ctxQuestion.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
+        }
       });
     }
   };
@@ -337,7 +364,7 @@ const QuizCanvas = props => {
           height={420}
           ref={canvasQuizQuestion}
           style={{
-            background: "lightblue",
+            background: "#003366",
             zIndex: "20",
             visibility: showCanvas ? "visible" : "hidden",
             position: "absolute",

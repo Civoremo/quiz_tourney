@@ -13,7 +13,14 @@ import {
 // const playboard = null;
 
 const QuizCanvas = props => {
-  const { quizzes, pickedQuizId, setPickedQuizId, allQuizQuestions } = props;
+  const {
+    quizzes,
+    pickedQuizId,
+    setPickedQuizId,
+    allQuizQuestions,
+    setPickedAnswer,
+    answerChecked,
+  } = props;
   const { questionPicked, setQuestionPicked } = props;
   const [showCanvas, setShowCanvas] = useState(false);
   // const [clickedQuiz, setClickedQuiz] = useState(false);
@@ -95,28 +102,16 @@ const QuizCanvas = props => {
             !showCanvas &&
             !playGrid[pos].selected
           ) {
-            // console.log({
-            //   xM: relativeX,
-            //   yM: relativeY,
-            //   xT: parseInt(playGrid[pos].xTop),
-            //   xE: parseInt(playGrid[pos].xEnd),
-            //   yT: parseInt(playGrid[pos].yTop),
-            //   yE: parseInt(playGrid[pos].yEnd),
-            //   quiz: playGrid[pos].quiz.title,
-            //   question: playGrid[pos].row,
-            // });
-            console.log(
-              "square clicked",
-              "\nQuiz index",
-              playGrid[pos].column,
-              playGrid[pos].quiz.title,
-              "question",
-              playGrid[pos].row,
-              playGrid
-              //   "playgrid",
-              //   { yTop: playGrid[pos].yTop, yEnd: playGrid[pos].yEnd },
-              //   playGrid[pos]
-            );
+            // console.log(
+            //   "square clicked",
+            //   "\nQuiz index",
+            //   playGrid[pos].column,
+            //   playGrid[pos].quiz.title,
+            //   "question",
+            //   playGrid[pos].row,
+            //   playGrid
+            // );
+
             playGrid[pos].selected = true;
             questionsBoardClickHandler(
               event,
@@ -152,24 +147,31 @@ const QuizCanvas = props => {
               relativeX < answerGrid[pos].xEnd &&
               relativeY > answerGrid[pos].yStart + 80 &&
               relativeY < answerGrid[pos].yEnd + 80
-              // event.clientX > 100 &&
-              // event.clientX < 700 &&
-              // event.clientY > 225 &&
-              // event.clientY < 350
             ) {
-              console.log(
-                "answer index Picked",
-                pos,
-                { x: event.clientX, y: event.clientY },
-                answerGrid
-              );
+              let filteredQuiz = allQuizQuestions.filter(quiz => {
+                return quiz[0] === pickedQuizId;
+              });
+              if (filteredQuiz.length > 0) {
+                if (filteredQuiz[0][1][questionPicked] !== undefined) {
+                  setPickedAnswer([
+                    filteredQuiz[0][0],
+                    filteredQuiz[0][1][questionPicked].id,
+                    parseInt(pos),
+                  ]);
+                } else {
+                  console.log(
+                    "id undefined",
+                    filteredQuiz[0][1][questionPicked]
+                  );
+                }
+              }
             }
           }
         }
       },
       false
     );
-  }, [showCanvas]);
+  }, [showCanvas, allQuizQuestions, questionPicked, quizzes]);
 
   const mouseMoveHandler = e => {
     // console.log("canvas", canvasHoverRef.current);
@@ -258,7 +260,7 @@ const QuizCanvas = props => {
   useEffect(() => {
     // const cnvs = canvasRef.current;
     // const ctx = cnvs.getContext("2d");
-    console.log("drawing");
+    // console.log("drawing");
     let animationFrameId;
     let interval;
 
@@ -322,15 +324,15 @@ const QuizCanvas = props => {
 
     if (filteredQuiz.length !== 0) {
       // console.log("filtered ", filteredQuiz);
-      console.log(
-        "selected question ",
-        filteredQuiz[0][1][questionId].question
-      );
-      console.log("Answers", filteredQuiz[0][1][questionId].options);
-      console.log(
-        "questionLength",
-        ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
-      );
+      // console.log(
+      //   "selected question ",
+      //   filteredQuiz[0][1][questionId].question
+      // );
+      // console.log("Answers", filteredQuiz[0][1][questionId].options);
+      // console.log(
+      //   "questionLength",
+      //   ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
+      // );
       ctxQuestion.textAlign = "center";
       ctxQuestion.fillText(
         `${filteredQuiz[0][1][questionId].question}`,
@@ -378,7 +380,7 @@ const QuizCanvas = props => {
   const questionsBoardClickHandler = (event, quizIndex, questionIndex) => {
     event.preventDefault();
     // console.log("selected changed", playGrid, quizIndex, questionIndex);
-    console.log("visibility: ", showCanvas);
+    // console.log("visibility: ", showCanvas);
     setPickedQuizId(quizzes[quizIndex].id);
     setQuestionPicked(questionIndex);
     setShowCanvas(true);

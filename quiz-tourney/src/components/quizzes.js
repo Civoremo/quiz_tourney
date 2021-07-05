@@ -6,8 +6,8 @@ import { getAllQuizzes } from "../actions/index";
 
 import QuizQuestions from "./quizQuestions";
 
-const Quizzes = (props) => {
-  const allQuizzes = useSelector((state) => state.quizzes.quizzes);
+const Quizzes = props => {
+  const allQuizzes = useSelector(state => state.quizzes.quizzes);
   const dispatch = useDispatch();
 
   const [picks, setPicks] = useState([]);

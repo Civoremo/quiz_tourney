@@ -7,31 +7,32 @@ import {
   drawHoveringArea,
 } from "./Functions/index";
 
-const columns = 6;
-const rows = 6;
+// const columns = 6;
+// const rows = 6;
 // const playboard = null;
 
 const QuizCanvas = props => {
   const { quizzes, pickedQuizId, setPickedQuizId, allQuizQuestions } = props;
   const { questionPicked, setQuestionPicked } = props;
   const [showCanvas, setShowCanvas] = useState(false);
-  const [clickedQuiz, setClickedQuiz] = useState(false);
+  // const [clickedQuiz, setClickedQuiz] = useState(false);
   // const [questionPicked, setQuestionPicked] = useState(null);
   const canvasRef = useRef(null);
   const canvasTextRef = useRef(null);
   const canvasQuizQuestion = useRef(null);
-  const cavnasHoverRef = useRef(null);
+  const canvasHoverRef = useRef(null);
   const [playGrid, setPlayGrid] = useState([]);
 
   // const cnvs = canvasRef.current;
   // const ctx = cnvs.getContext("2d");
 
+  // store quiz question sqaure info
   useEffect(() => {
     let tempArray = [];
     const columns = 6;
     const rows = 6;
 
-    let sqrSizeWidth = cavnasHoverRef.current.width / columns;
+    let sqrSizeWidth = canvasHoverRef.current.width / columns;
     let sqrSizeHeight = 500 / rows;
 
     console.log("QUIZZES", quizzes);
@@ -39,17 +40,17 @@ const QuizCanvas = props => {
       for (let i = 1; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
           const x = sqrSizeWidth * j;
-          const y = sqrSizeHeight * (i + 1);
-          console.log({ quiz: quizzes[j].title, Q: i, x, y });
+          const y = sqrSizeHeight * i;
+          // console.log({ quiz: quizzes[j].title, Q: i, x, y });
 
           let square = {
             row: i - 1, // question index
             column: j, // quiz index
             selected: false, // already clicked
-            xTop: x + 2,
-            xEnd: x + 2 + sqrSizeWidth,
-            yTop: y + 2,
-            yEnd: y + 2 + sqrSizeHeight,
+            xTop: parseInt(x + 2),
+            xEnd: parseInt(x + 2 + sqrSizeWidth),
+            yTop: parseInt(y + 2),
+            yEnd: parseInt(y + 2 + sqrSizeHeight),
             quiz: quizzes[j],
           };
           tempArray.push(square);
@@ -59,10 +60,11 @@ const QuizCanvas = props => {
     }
   }, [quizzes]);
 
+  // quiz board click event listener and setter
   useEffect(() => {
-    const cnvs = cavnasHoverRef.current;
-    const ctx = cnvs.getContext("2d");
-    let relativeOffset = cavnasHoverRef.current.getBoundingClientRect();
+    const cnvs = canvasHoverRef.current;
+    // const ctx = cnvs.getContext("2d");
+    let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
     let relativeX;
     let relativeY;
 
@@ -77,21 +79,24 @@ const QuizCanvas = props => {
           if (
             relativeX > playGrid[pos].xTop &&
             relativeX < playGrid[pos].xEnd &&
-            event.clientY > playGrid[pos].yTop &&
-            event.clientY < playGrid[pos].yEnd &&
-            // pos !== 0 &&
-            playGrid[pos].quiz !== undefined
+            relativeY > playGrid[pos].yTop &&
+            relativeY < playGrid[pos].yEnd &&
+            relativeY > 2 &&
+            relativeY < 490 &&
+            playGrid[pos].quiz !== undefined &&
+            !showCanvas &&
+            !playGrid[pos].selected
           ) {
-            console.log({
-              xM: relativeX,
-              yM: relativeY,
-              xT: parseInt(playGrid[pos].xTop),
-              xE: parseInt(playGrid[pos].xEnd),
-              yT: parseInt(playGrid[pos].yTop),
-              yE: parseInt(playGrid[pos].yEnd),
-              quiz: playGrid[pos].quiz.title,
-              question: playGrid[pos].row,
-            });
+            // console.log({
+            //   xM: relativeX,
+            //   yM: relativeY,
+            //   xT: parseInt(playGrid[pos].xTop),
+            //   xE: parseInt(playGrid[pos].xEnd),
+            //   yT: parseInt(playGrid[pos].yTop),
+            //   yE: parseInt(playGrid[pos].yEnd),
+            //   quiz: playGrid[pos].quiz.title,
+            //   question: playGrid[pos].row,
+            // });
             console.log(
               "square clicked",
               "\nQuiz index",
@@ -99,39 +104,35 @@ const QuizCanvas = props => {
               playGrid[pos].quiz.title,
               "question",
               playGrid[pos].row
+              //   "playgrid",
+              //   { yTop: playGrid[pos].yTop, yEnd: playGrid[pos].yEnd },
+              //   playGrid[pos]
             );
-            console.log(playGrid[pos]);
+            playGrid[pos].selected = true;
+            questionsBoardClickHandler(
+              event,
+              playGrid[pos].column,
+              playGrid[pos].row
+            );
           }
         }
       },
       false
     );
+    // console.log(playGrid);
   }, [playGrid]);
 
-  const questionsBoardClickHandler = (event, i, j) => {
-    event.preventDefault();
-    if (!showCanvas) {
-      console.log("visibility: ", showCanvas);
-      setPickedQuizId(quizzes[i].id);
-      setQuestionPicked(j - 1);
-      setShowCanvas(true);
-      // setShowCanvas(!showCanvas);
-    } else {
-      console.log("STOPPED EVENT");
-    }
-  };
-
   const mouseMoveHandler = e => {
-    // console.log("canvas", cavnasHoverRef.current);
-    if (cavnasHoverRef.current.getBoundingClientRect() !== null) {
-      let relativeOffset = cavnasHoverRef.current.getBoundingClientRect();
+    // console.log("canvas", canvasHoverRef.current);
+    if (canvasHoverRef.current.getBoundingClientRect() !== null) {
+      let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
       let relativeX = e.clientX - relativeOffset.left;
       let relativeY = e.clientY - relativeOffset.top;
 
       // console.log(relativeX, relativeY);
 
-      const cnvs = canvasRef.current;
-      const ctx = cnvs.getContext("2d");
+      // const cnvs = canvasRef.current;
+      // const ctx = cnvs.getContext("2d");
 
       const mousePosition = { x: relativeX, y: relativeY };
       //   console.log("M-position", mousePosition);
@@ -140,18 +141,16 @@ const QuizCanvas = props => {
       console.log("canvas has not finished loading");
     }
   };
-  const pullUpClickedQuiz = () => {
-    console.log("button clicked");
-  };
 
+  // highlight sqaure at mouse position
   const drawSelectedArea = mousePosition => {
-    const cnvs = cavnasHoverRef.current;
+    const cnvs = canvasHoverRef.current;
     const ctx = cnvs.getContext("2d");
 
     drawHoveringArea(cnvs, ctx, mousePosition);
   };
 
-  // initial drawing of the board, not populating any of the text
+  // initial drawing of the board, not populating any of the text, event listener mousemove
   useEffect(() => {
     const cnvs = canvasRef.current;
     const ctx = cnvs.getContext("2d");
@@ -165,8 +164,8 @@ const QuizCanvas = props => {
       //   questionsBoardClickHandler
     );
 
-    if (cavnasHoverRef.current !== null)
-      cavnasHoverRef.current.addEventListener(
+    if (canvasHoverRef.current !== null)
+      canvasHoverRef.current.addEventListener(
         "mousemove",
         mouseMoveHandler,
         false
@@ -189,7 +188,7 @@ const QuizCanvas = props => {
       //   mouseMoveHandler,
       //   false
       // );
-      // cavnasHoverRef.current.addEventListener(
+      // canvasHoverRef.current.addEventListener(
       //   "mousemove",
       //   mouseMoveHandler,
       //   false
@@ -262,9 +261,19 @@ const QuizCanvas = props => {
     }
   };
 
+  // show question canvas and set quiz and question index
+  const questionsBoardClickHandler = (event, quizIndex, questionIndex) => {
+    event.preventDefault();
+    console.log("selected changed", playGrid, quizIndex, questionIndex);
+    console.log("visibility: ", showCanvas);
+    setPickedQuizId(quizzes[quizIndex].id);
+    setQuestionPicked(questionIndex);
+    setShowCanvas(true);
+  };
+
   useEffect(() => {
+    console.log("picked new question ID", pickedQuizId);
     if (pickedQuizId !== null) {
-      console.log("showing wuiz question");
       displayQuestionAndAnswers(pickedQuizId, questionPicked);
     } else {
       console.log("not going to display question text");
@@ -273,7 +282,7 @@ const QuizCanvas = props => {
     // return () => {
     //   cleanup
     // }
-  }, [pickedQuizId]);
+  }, [allQuizQuestions]);
 
   return (
     <div>
@@ -296,6 +305,7 @@ const QuizCanvas = props => {
             background: "#222",
             zIndex: "1",
             position: "absolute",
+            // border: "1px solid red",
           }}
         />
         <canvas
@@ -303,16 +313,22 @@ const QuizCanvas = props => {
           width={800}
           height={700}
           ref={canvasTextRef}
-          style={{ zIndex: "10", position: "absolute" }}
+          style={{
+            zIndex: "10",
+            position: "absolute",
+            // border: "3px solid red",
+          }}
         />
         <canvas
           id='canvas-hover-area'
           width={800}
-          height={700}
-          ref={cavnasHoverRef}
+          height={500}
+          ref={canvasHoverRef}
           style={{
             zIndex: "15",
             position: "absolute",
+            top: "75px",
+            border: "2px solid orange",
           }}
         />
         <canvas
@@ -324,8 +340,9 @@ const QuizCanvas = props => {
             background: "lightblue",
             zIndex: "20",
             visibility: showCanvas ? "visible" : "hidden",
-            position: "relative",
-            top: "-60px",
+            position: "absolute",
+            top: "155px",
+            border: "1px solid whitesmoke",
           }}
         />
       </div>

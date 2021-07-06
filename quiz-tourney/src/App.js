@@ -1,10 +1,10 @@
 /** @format */
 
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
-import { Route, NavLink, Link, Switch } from "react-router-dom";
+import { Route, NavLink, Switch } from "react-router-dom";
 
-import Quizzes from './components/quizzes';
+import Quizzes from "./components/quizzes";
 
 function App() {
   return (
@@ -12,7 +12,9 @@ function App() {
       <header>
         <ul>
           <li>
-            <NavLink exact to='/quizzes' activeClassName='activeNavButton'>Quizzes</NavLink>
+            <NavLink exact to='/quizzes' activeClassName='activeNavButton'>
+              Quizzes
+            </NavLink>
           </li>
         </ul>
       </header>

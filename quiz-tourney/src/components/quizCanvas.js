@@ -40,6 +40,11 @@ const QuizCanvas = props => {
 
   // const cnvs = canvasRef.current;
   // const ctx = cnvs.getContext("2d");
+  useEffect(() => {
+    console.log("answered checked complete", answerChecked);
+    console.log("updated playgrid", playGrid);
+    setShowCanvas(false);
+  }, [answerChecked]);
 
   // store quiz question sqaure info
   useEffect(() => {
@@ -102,30 +107,38 @@ const QuizCanvas = props => {
             !showCanvas &&
             !playGrid[pos].selected
           ) {
-            // console.log(
-            //   "square clicked",
-            //   "\nQuiz index",
-            //   playGrid[pos].column,
-            //   playGrid[pos].quiz.title,
-            //   "question",
-            //   playGrid[pos].row,
-            //   playGrid
-            // );
-
-            playGrid[pos].selected = true;
+            console.log("POS", pos);
+            // playGrid[pos].selected = true;
             questionsBoardClickHandler(
               event,
               playGrid[pos].column,
               playGrid[pos].row
+            );
+
+            setPlayGrid(
+              [...playGrid].map((object, index) => {
+                // console.log(index === parseInt(pos));
+                if (index === parseInt(pos)) {
+                  // console.log(object);
+                  return {
+                    ...object,
+                    selected: true,
+                  };
+                } else {
+                  return object;
+                }
+              })
             );
           }
         }
       },
       false
     );
+
     // console.log(playGrid);
   }, [playGrid]);
 
+  // event listener on answer selection board
   useEffect(() => {
     const cnvs = canvasAnswerHoverRef.current;
     let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
@@ -180,14 +193,7 @@ const QuizCanvas = props => {
       let relativeX = e.clientX - relativeOffset.left;
       let relativeY = e.clientY - relativeOffset.top;
 
-      // console.log(relativeX, relativeY);
-
-      // const cnvs = canvasRef.current;
-      // const ctx = cnvs.getContext("2d");
-
       const mousePosition = { x: relativeX, y: relativeY };
-      //   console.log("M-position", mousePosition);
-      // console.log("showCanvas", showCanvas);
       if (!showCanvas) {
         // console.log("quiz selection shown");
         drawSelectedArea(mousePosition);
@@ -223,7 +229,7 @@ const QuizCanvas = props => {
     const cnvs = canvasHoverRef.current;
     const ctx = cnvs.getContext("2d");
 
-    drawHoveringArea(cnvs, ctx, mousePosition);
+    drawHoveringArea(cnvs, ctx, mousePosition, playGrid);
   };
 
   // initial drawing of the board, not populating any of the text, event listener mousemove
@@ -254,13 +260,21 @@ const QuizCanvas = props => {
         false
       );
     }
-    return () => {};
-  }, [showCanvas]);
+    return () => {
+      canvasHoverRef.current.removeEventListener(
+        "mousemove",
+        mouseMoveHandler,
+        false
+      );
+      canvasAnswerHoverRef.current.removeEventListener(
+        "mousemove",
+        answerMouseHandler,
+        false
+      );
+    };
+  }, [showCanvas, playGrid]);
 
   useEffect(() => {
-    // const cnvs = canvasRef.current;
-    // const ctx = cnvs.getContext("2d");
-    // console.log("drawing");
     let animationFrameId;
     let interval;
 

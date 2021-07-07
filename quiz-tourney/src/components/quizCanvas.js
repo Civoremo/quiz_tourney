@@ -8,6 +8,10 @@ import {
   answerHoverArea,
 } from "./Functions/index";
 
+import GridCanvas from "./Functions/gridCanvas";
+import QuizTextAndSelectionCanvas from "./Functions/quizTextAndSelectionCanvas";
+import QuizHoverCanvas from "./Functions/quizHoverCanvas";
+
 // const columns = 6;
 // const rows = 6;
 // const playboard = null;
@@ -40,151 +44,154 @@ const QuizCanvas = props => {
 
   // const cnvs = canvasRef.current;
   // const ctx = cnvs.getContext("2d");
-  useEffect(() => {
-    console.log("answered checked complete", answerChecked);
-    console.log("updated playgrid", playGrid);
-    setShowCanvas(false);
-  }, [answerChecked]);
+  // useEffect(() => {
+  //   console.log("answered checked complete", answerChecked);
+  //   console.log("updated playgrid", playGrid);
+  //   setShowCanvas(false);
+  // }, [answerChecked]);
 
-  // store quiz question sqaure info
-  useEffect(() => {
-    let tempArray = [];
-    const columns = 6;
-    const rows = 6;
+  // // store quiz question sqaure info
+  // useEffect(() => {
+  //   let tempArray = [];
+  //   const columns = 6;
+  //   const rows = 6;
 
-    let sqrSizeWidth = canvasHoverRef.current.width / columns;
-    let sqrSizeHeight = 500 / rows;
+  //   let sqrSizeWidth = canvasHoverRef.current.width / columns;
+  //   let sqrSizeHeight = 500 / rows;
 
-    // console.log("QUIZZES", quizzes);
-    if (quizzes.length !== 0) {
-      for (let i = 1; i < rows; i++) {
-        for (let j = 0; j < columns; j++) {
-          const x = sqrSizeWidth * j;
-          const y = sqrSizeHeight * i;
-          // console.log({ quiz: quizzes[j].title, Q: i, x, y });
+  //   // console.log("QUIZZES", quizzes);
+  //   if (quizzes.length !== 0) {
+  //     for (let i = 1; i < rows; i++) {
+  //       for (let j = 0; j < columns; j++) {
+  //         const x = sqrSizeWidth * j;
+  //         const y = sqrSizeHeight * i;
+  //         // console.log({ quiz: quizzes[j].title, Q: i, x, y });
 
-          let square = {
-            row: i - 1, // question index
-            column: j, // quiz index
-            selected: false, // already clicked
-            xTop: parseInt(x + 2),
-            xEnd: parseInt(x + 2 + sqrSizeWidth),
-            yTop: parseInt(y + 2),
-            yEnd: parseInt(y + 2 + sqrSizeHeight),
-            quiz: quizzes[j],
-          };
-          tempArray.push(square);
-        }
-      }
-      setPlayGrid(tempArray);
-    }
-  }, [quizzes]);
+  //         let square = {
+  //           row: i - 1, // question index
+  //           column: j, // quiz index
+  //           selected: false, // already clicked
+  //           xTop: parseInt(x + 2),
+  //           xEnd: parseInt(x + 2 + sqrSizeWidth),
+  //           yTop: parseInt(y + 2),
+  //           yEnd: parseInt(y + 2 + sqrSizeHeight),
+  //           quiz: quizzes[j],
+  //         };
+  //         tempArray.push(square);
+  //       }
+  //     }
+  //     setPlayGrid(tempArray);
+  //   }
+  // }, [quizzes]);
 
   // quiz board click event listener and setter
-  useEffect(() => {
-    const cnvs = canvasHoverRef.current;
-    // const ctx = cnvs.getContext("2d");
-    let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
-    let relativeX;
-    let relativeY;
+  // useEffect(() => {
+  //   const cnvs = canvasHoverRef.current;
+  //   // const ctx = cnvs.getContext("2d");
+  //   let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
+  //   let relativeX;
+  //   let relativeY;
 
-    cnvs.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-        relativeX = event.clientX - relativeOffset.left;
-        relativeY = event.clientY - relativeOffset.top;
+  //   cnvs.addEventListener(
+  //     "click",
+  //     event => {
+  //       event.stopPropagation();
+  //       relativeX = event.clientX - relativeOffset.left;
+  //       relativeY = event.clientY - relativeOffset.top;
 
-        for (let pos in playGrid) {
-          if (
-            relativeX > playGrid[pos].xTop &&
-            relativeX < playGrid[pos].xEnd &&
-            relativeY > playGrid[pos].yTop &&
-            relativeY < playGrid[pos].yEnd &&
-            relativeY > 85 &&
-            relativeY < 490 &&
-            playGrid[pos].quiz !== undefined &&
-            !showCanvas &&
-            !playGrid[pos].selected
-          ) {
-            console.log("POS", pos);
-            // playGrid[pos].selected = true;
-            questionsBoardClickHandler(
-              event,
-              playGrid[pos].column,
-              playGrid[pos].row
-            );
+  //       for (let pos in playGrid) {
+  //         if (
+  //           relativeX > playGrid[pos].xTop &&
+  //           relativeX < playGrid[pos].xEnd &&
+  //           relativeY > playGrid[pos].yTop &&
+  //           relativeY < playGrid[pos].yEnd &&
+  //           relativeY > 85 &&
+  //           relativeY < 490 &&
+  //           playGrid[pos].quiz !== undefined &&
+  //           !showCanvas &&
+  //           !playGrid[pos].selected
+  //         ) {
+  //           console.log("POS", pos);
+  //           // playGrid[pos].selected = true;
+  //           questionsBoardClickHandler(
+  //             event,
+  //             playGrid[pos].column,
+  //             playGrid[pos].row
+  //           );
 
-            setPlayGrid(
-              [...playGrid].map((object, index) => {
-                // console.log(index === parseInt(pos));
-                if (index === parseInt(pos)) {
-                  // console.log(object);
-                  return {
-                    ...object,
-                    selected: true,
-                  };
-                } else {
-                  return object;
-                }
-              })
-            );
-          }
-        }
-      },
-      false
-    );
+  //           setPlayGrid(
+  //             [...playGrid].map((object, index) => {
+  //               // console.log(index === parseInt(pos));
+  //               if (index === parseInt(pos)) {
+  //                 // console.log(object);
+  //                 return {
+  //                   ...object,
+  //                   selected: true,
+  //                 };
+  //               } else {
+  //                 return object;
+  //               }
+  //             })
+  //           );
+  //         }
+  //       }
+  //     },
+  //     false
+  //   );
 
-    // console.log(playGrid);
-  }, [playGrid]);
+  //   // console.log(playGrid);
+  // }, [playGrid]);
 
   // event listener on answer selection board
-  useEffect(() => {
-    const cnvs = canvasAnswerHoverRef.current;
-    let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
-    let relativeX;
-    let relativeY;
+  ////////////
+  ////////////
+  //need to refactor this to work on answers
+  // useEffect(() => {
+  //   const cnvs = canvasAnswerHoverRef.current;
+  //   let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
+  //   let relativeX;
+  //   let relativeY;
 
-    cnvs.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-        relativeX = event.clientX - relativeOffset.left;
-        relativeY = event.clientY - relativeOffset.top;
-        // console.log("realtive", { x: relativeX, y: relativeY });
+  //   cnvs.addEventListener(
+  //     "click",
+  //     event => {
+  //       event.stopPropagation();
+  //       relativeX = event.clientX - relativeOffset.left;
+  //       relativeY = event.clientY - relativeOffset.top;
+  //       // console.log("realtive", { x: relativeX, y: relativeY });
 
-        if (showCanvas) {
-          for (let pos in answerGrid) {
-            if (
-              relativeX > answerGrid[pos].xStart &&
-              relativeX < answerGrid[pos].xEnd &&
-              relativeY > answerGrid[pos].yStart + 80 &&
-              relativeY < answerGrid[pos].yEnd + 80
-            ) {
-              let filteredQuiz = allQuizQuestions.filter(quiz => {
-                return quiz[0] === pickedQuizId;
-              });
-              if (filteredQuiz.length > 0) {
-                if (filteredQuiz[0][1][questionPicked] !== undefined) {
-                  setPickedAnswer([
-                    filteredQuiz[0][0],
-                    filteredQuiz[0][1][questionPicked].id,
-                    parseInt(pos),
-                  ]);
-                } else {
-                  console.log(
-                    "id undefined",
-                    filteredQuiz[0][1][questionPicked]
-                  );
-                }
-              }
-            }
-          }
-        }
-      },
-      false
-    );
-  }, [showCanvas, allQuizQuestions, questionPicked, quizzes]);
+  //       if (showCanvas) {
+  //         for (let pos in answerGrid) {
+  //           if (
+  //             relativeX > answerGrid[pos].xStart &&
+  //             relativeX < answerGrid[pos].xEnd &&
+  //             relativeY > answerGrid[pos].yStart + 80 &&
+  //             relativeY < answerGrid[pos].yEnd + 80
+  //           ) {
+  //             let filteredQuiz = allQuizQuestions.filter(quiz => {
+  //               return quiz[0] === pickedQuizId;
+  //             });
+  //             if (filteredQuiz.length > 0) {
+  //               if (filteredQuiz[0][1][questionPicked] !== undefined) {
+  //                 setPickedAnswer([
+  //                   filteredQuiz[0][0],
+  //                   filteredQuiz[0][1][questionPicked].id,
+  //                   parseInt(pos),
+  //                 ]);
+  //               } else {
+  //                 console.log(
+  //                   "id undefined",
+  //                   filteredQuiz[0][1][questionPicked]
+  //                 );
+  //               }
+  //             }
+  //           }
+  //         }
+  //       }
+  //     },
+  //     false
+  //   );
+  // }, [showCanvas, allQuizQuestions, questionPicked, quizzes]);
 
   const mouseMoveHandler = e => {
     // console.log("canvas", canvasHoverRef.current);
@@ -234,44 +241,41 @@ const QuizCanvas = props => {
 
   // initial drawing of the board, not populating any of the text, event listener mousemove
   useEffect(() => {
-    const cnvs = canvasRef.current;
-    const ctx = cnvs.getContext("2d");
-
-    drawPlayboard(
-      cnvs,
-      ctx
-      //   { x: 0, y: 0 },
-      //   showCanvas,
-      //   quizzes,
-      //   questionsBoardClickHandler
-    );
-
-    if (canvasHoverRef.current !== null)
-      canvasHoverRef.current.addEventListener(
-        "mousemove",
-        mouseMoveHandler,
-        false
-      );
-
-    if (canvasAnswerHoverRef.current !== null) {
-      canvasAnswerHoverRef.current.addEventListener(
-        "mousemove",
-        answerMouseHandler,
-        false
-      );
-    }
-    return () => {
-      canvasHoverRef.current.removeEventListener(
-        "mousemove",
-        mouseMoveHandler,
-        false
-      );
-      canvasAnswerHoverRef.current.removeEventListener(
-        "mousemove",
-        answerMouseHandler,
-        false
-      );
-    };
+    // const cnvs = canvasRef.current;
+    // const ctx = cnvs.getContext("2d");
+    // drawPlayboard(
+    //   cnvs,
+    //   ctx
+    //   { x: 0, y: 0 },
+    //   showCanvas,
+    //   quizzes,
+    //   questionsBoardClickHandler
+    // );
+    // if (canvasHoverRef.current !== null)
+    //   canvasHoverRef.current.addEventListener(
+    //     "mousemove",
+    //     mouseMoveHandler,
+    //     false
+    //   );
+    // if (canvasAnswerHoverRef.current !== null) {
+    //   canvasAnswerHoverRef.current.addEventListener(
+    //     "mousemove",
+    //     answerMouseHandler,
+    //     false
+    //   );
+    // }
+    // return () => {
+    //   canvasHoverRef.current.removeEventListener(
+    //     "mousemove",
+    //     mouseMoveHandler,
+    //     false
+    //   );
+    //   canvasAnswerHoverRef.current.removeEventListener(
+    //     "mousemove",
+    //     answerMouseHandler,
+    //     false
+    //   );
+    // };
   }, [showCanvas, playGrid]);
 
   useEffect(() => {
@@ -313,10 +317,10 @@ const QuizCanvas = props => {
     if (quizzes.length !== 0) populateBoard(ctxText, quizzes);
   };
 
-  useEffect(() => {
-    populateBoardText();
-    // return () => {};
-  }, [quizzes]);
+  // useEffect(() => {
+  //   populateBoardText();
+  //   // return () => {};
+  // }, [quizzes]);
 
   const displayQuestionAndAnswers = (quizId, questionId) => {
     const cnvsQuestion = canvasQuizQuestion.current;
@@ -425,7 +429,8 @@ const QuizCanvas = props => {
           alignItems: "center",
         }}
       >
-        <canvas
+        {/* canvas used to draw the board grid layout */}
+        {/* <canvas
           id='canvasRef'
           width={800}
           height={700}
@@ -436,8 +441,11 @@ const QuizCanvas = props => {
             position: "absolute",
             // border: "1px solid red",
           }}
-        />
-        <canvas
+        /> */}
+        <GridCanvas quizzes={quizzes} setPlayGrid={setPlayGrid} />
+
+        {/* canvas used to write text on the board grid layout */}
+        {/* <canvas
           id='quiz-selection-canvas'
           width={800}
           height={700}
@@ -447,8 +455,19 @@ const QuizCanvas = props => {
             position: "absolute",
             // border: "3px solid red",
           }}
+        /> */}
+        <QuizTextAndSelectionCanvas
+          quizzes={quizzes}
+          playGrid={playGrid}
+          setPlayGrid={setPlayGrid}
+          showCanvas={setShowCanvas}
+          setShowCanvas={setShowCanvas}
+          setPickedQuizId={setPickedQuizId}
+          setQuestionPicked={setQuestionPicked}
         />
-        <canvas
+
+        {/* canvas used to show the grid square the mouse is hovering over */}
+        {/* <canvas
           id='canvas-hover-area'
           width={800}
           height={500}
@@ -459,7 +478,10 @@ const QuizCanvas = props => {
             top: "75px",
             // border: "2px solid orange",
           }}
-        />
+        /> */}
+        <QuizHoverCanvas showCanvas={showCanvas} playGrid={playGrid} />
+
+        {/* canvas used to display the selected question with the possible answers */}
         <canvas
           id='quiz-question-canvas'
           width={796}
@@ -474,6 +496,8 @@ const QuizCanvas = props => {
             // border: "1px solid whitesmoke",
           }}
         />
+
+        {/* canvas used to highlight the answer the mouse is hovering over */}
         <canvas
           id='quiz-question-canvas-hover'
           ref={canvasAnswerHoverRef}

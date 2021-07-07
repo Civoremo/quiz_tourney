@@ -2,7 +2,7 @@
 
 import React, { useRef, useEffect } from "react";
 
-import { populateBoard } from "../Functions/populateBoard";
+import { populateBoard } from "./populateBoard";
 
 const QuizTextAndSelectionCanvas = ({
   quizzes,

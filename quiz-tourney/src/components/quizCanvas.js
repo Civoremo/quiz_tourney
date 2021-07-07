@@ -8,6 +8,8 @@ import {
   answerHoverArea,
 } from "./Functions/index";
 
+import GridCanvas from "./Functions/gridCanvas";
+
 // const columns = 6;
 // const rows = 6;
 // const playboard = null;
@@ -234,17 +236,17 @@ const QuizCanvas = props => {
 
   // initial drawing of the board, not populating any of the text, event listener mousemove
   useEffect(() => {
-    const cnvs = canvasRef.current;
-    const ctx = cnvs.getContext("2d");
+    // const cnvs = canvasRef.current;
+    // const ctx = cnvs.getContext("2d");
 
-    drawPlayboard(
-      cnvs,
-      ctx
-      //   { x: 0, y: 0 },
-      //   showCanvas,
-      //   quizzes,
-      //   questionsBoardClickHandler
-    );
+    // drawPlayboard(
+    //   cnvs,
+    //   ctx
+    //   { x: 0, y: 0 },
+    //   showCanvas,
+    //   quizzes,
+    //   questionsBoardClickHandler
+    // );
 
     if (canvasHoverRef.current !== null)
       canvasHoverRef.current.addEventListener(
@@ -425,7 +427,8 @@ const QuizCanvas = props => {
           alignItems: "center",
         }}
       >
-        <canvas
+        {/* canvas used to draw the board grid layout */}
+        {/* <canvas
           id='canvasRef'
           width={800}
           height={700}
@@ -436,7 +439,10 @@ const QuizCanvas = props => {
             position: "absolute",
             // border: "1px solid red",
           }}
-        />
+        /> */}
+        <GridCanvas />
+
+        {/* canvas used to write text on the board grid layout */}
         <canvas
           id='quiz-selection-canvas'
           width={800}
@@ -448,6 +454,8 @@ const QuizCanvas = props => {
             // border: "3px solid red",
           }}
         />
+
+        {/* canvas used to show the grid square the mouse is hovering over */}
         <canvas
           id='canvas-hover-area'
           width={800}
@@ -460,6 +468,8 @@ const QuizCanvas = props => {
             // border: "2px solid orange",
           }}
         />
+
+        {/* canvas used to display the selected question with the possible answers */}
         <canvas
           id='quiz-question-canvas'
           width={796}
@@ -474,6 +484,8 @@ const QuizCanvas = props => {
             // border: "1px solid whitesmoke",
           }}
         />
+
+        {/* canvas used to highlight the answer the mouse is hovering over */}
         <canvas
           id='quiz-question-canvas-hover'
           ref={canvasAnswerHoverRef}

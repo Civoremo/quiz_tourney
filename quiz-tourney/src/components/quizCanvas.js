@@ -9,6 +9,7 @@ import {
 } from "./Functions/index";
 
 import GridCanvas from "./Functions/gridCanvas";
+import QuizTextAndSelectionCanvas from "./Functions/quizTextAndSelectionCanvas";
 
 // const columns = 6;
 // const rows = 6;
@@ -315,10 +316,10 @@ const QuizCanvas = props => {
     if (quizzes.length !== 0) populateBoard(ctxText, quizzes);
   };
 
-  useEffect(() => {
-    populateBoardText();
-    // return () => {};
-  }, [quizzes]);
+  // useEffect(() => {
+  //   populateBoardText();
+  //   // return () => {};
+  // }, [quizzes]);
 
   const displayQuestionAndAnswers = (quizId, questionId) => {
     const cnvsQuestion = canvasQuizQuestion.current;
@@ -443,7 +444,7 @@ const QuizCanvas = props => {
         <GridCanvas />
 
         {/* canvas used to write text on the board grid layout */}
-        <canvas
+        {/* <canvas
           id='quiz-selection-canvas'
           width={800}
           height={700}
@@ -453,6 +454,15 @@ const QuizCanvas = props => {
             position: "absolute",
             // border: "3px solid red",
           }}
+        /> */}
+        <QuizTextAndSelectionCanvas
+          quizzes={quizzes}
+          playGrid={playGrid}
+          setPlayGrid={setPlayGrid}
+          showCanvas={setShowCanvas}
+          setShowCanvas={setShowCanvas}
+          setPickedQuizId={setPickedQuizId}
+          setQuestionPicked={setQuestionPicked}
         />
 
         {/* canvas used to show the grid square the mouse is hovering over */}

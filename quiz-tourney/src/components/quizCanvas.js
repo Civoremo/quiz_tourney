@@ -9,8 +9,8 @@ import {
 } from "./Functions/index";
 
 import GridCanvas from "./Functions/gridCanvas";
-import QuizTextAndSelectionCanvas from "./Functions/quizTextAndSelectionCanvas";
-import QuizHoverCanvas from "./Functions/quizHoverCanvas";
+import QuizTextCanvas from "./Functions/quizTextCanvas";
+import QuizHoverAndClickCanvas from "./Functions/quizHoverAndClickCanvas";
 
 // const columns = 6;
 // const rows = 6;
@@ -417,6 +417,31 @@ const QuizCanvas = props => {
     // }
   }, [allQuizQuestions]);
 
+  useEffect(() => {
+    // console.log(pickedQuizId, questionPicked);
+    // console.log(allQuizQuestions, allQuizQuestions.length);
+    console.log(
+      "setting new quizID and question Index",
+      pickedQuizId,
+      questionPicked
+    );
+    if (
+      pickedQuizId !== null &&
+      questionPicked !== null &&
+      allQuizQuestions !== undefined
+    ) {
+      console.log(
+        "quiz selected",
+        quizzes.filter(quiz => quiz.id === pickedQuizId)
+      );
+      if (allQuizQuestions.length > 0)
+        console.log(
+          "question selected",
+          allQuizQuestions[0][1][questionPicked]
+        );
+    }
+  }, [pickedQuizId, questionPicked, allQuizQuestions]);
+
   return (
     <div>
       {/* {console.log(window.innerWidth)} */}
@@ -456,14 +481,10 @@ const QuizCanvas = props => {
             // border: "3px solid red",
           }}
         /> */}
-        <QuizTextAndSelectionCanvas
+        <QuizTextCanvas
           quizzes={quizzes}
           playGrid={playGrid}
-          setPlayGrid={setPlayGrid}
           showCanvas={setShowCanvas}
-          setShowCanvas={setShowCanvas}
-          setPickedQuizId={setPickedQuizId}
-          setQuestionPicked={setQuestionPicked}
         />
 
         {/* canvas used to show the grid square the mouse is hovering over */}
@@ -479,12 +500,20 @@ const QuizCanvas = props => {
             // border: "2px solid orange",
           }}
         /> */}
-        <QuizHoverCanvas showCanvas={showCanvas} playGrid={playGrid} />
+        <QuizHoverAndClickCanvas
+          showCanvas={showCanvas}
+          playGrid={playGrid}
+          quizzes={quizzes}
+          setShowCanvas={setShowCanvas}
+          setPlayGrid={setPlayGrid}
+          setPickedQuizId={setPickedQuizId}
+          setQuestionPicked={setQuestionPicked}
+        />
 
         {/* canvas used to display the selected question with the possible answers */}
         <canvas
           id='quiz-question-canvas'
-          width={796}
+          width={800}
           height={420}
           ref={canvasQuizQuestion}
           style={{
@@ -501,7 +530,7 @@ const QuizCanvas = props => {
         <canvas
           id='quiz-question-canvas-hover'
           ref={canvasAnswerHoverRef}
-          width={796}
+          width={800}
           height={420}
           style={{
             zIndex: "25",

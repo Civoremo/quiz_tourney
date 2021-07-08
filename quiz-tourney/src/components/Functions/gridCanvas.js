@@ -16,6 +16,7 @@ const GridCanvas = ({ quizzes, setPlayGrid }) => {
     let sqrSizeHeight = 500 / rows;
 
     // console.log("QUIZZES", quizzes);
+    // console.log("storing playgrid");
     if (quizzes.length !== 0) {
       for (let i = 1; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
@@ -45,7 +46,7 @@ const GridCanvas = ({ quizzes, setPlayGrid }) => {
     const ctx = cnvs.getContext("2d");
 
     drawPlayboard(cnvs, ctx);
-    setPlayGrid(quizzes);
+    storePlayGrid(quizzes);
   }, [quizzes]);
 
   return (

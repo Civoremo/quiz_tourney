@@ -7,3 +7,5 @@ export { populateBoard } from "./populateBoard";
 export { drawHoveringArea } from "./drawHoveringArea";
 
 export { answerHoverArea } from "./answerHoverArea";
+
+export { drawQuestion } from "./drawQuestion";

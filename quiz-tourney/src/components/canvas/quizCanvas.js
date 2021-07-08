@@ -1,16 +1,18 @@
 /** @format */
 
-import React, { useRef, useEffect, useState } from "react";
-import {
-  drawPlayboard,
-  populateBoard,
-  drawHoveringArea,
-  answerHoverArea,
-} from "./Functions/index";
+import React, { useEffect, useState } from "react";
+// import {
+//   drawPlayboard,
+//   populateBoard,
+//   drawHoveringArea,
+//   answerHoverArea,
+// } from "../Functions/index";
 
-import GridCanvas from "./Functions/gridCanvas";
-import QuizTextCanvas from "./Functions/quizTextCanvas";
-import QuizHoverAndClickCanvas from "./Functions/quizHoverAndClickCanvas";
+import GridCanvas from "./gridCanvas";
+import QuizTextCanvas from "./quizTextCanvas";
+import QuizHoverAndClickCanvas from "./quizHoverAndClickCanvas";
+import QuestionCanvas from "./questionCanvas";
+import QuestionHoverAndClickCanvas from "./questionHoverAndClickCanvas";
 
 // const columns = 6;
 // const rows = 6;
@@ -29,13 +31,13 @@ const QuizCanvas = props => {
   const [showCanvas, setShowCanvas] = useState(false);
   // const [clickedQuiz, setClickedQuiz] = useState(false);
   // const [questionPicked, setQuestionPicked] = useState(null);
-  const canvasRef = useRef(null);
-  const canvasTextRef = useRef(null);
-  const canvasQuizQuestion = useRef(null);
-  const canvasHoverRef = useRef(null);
-  const canvasAnswerHoverRef = useRef(null);
+  // const canvasRef = useRef(null);
+  // const canvasTextRef = useRef(null);
+  // const canvasQuizQuestion = useRef(null);
+  // const canvasHoverRef = useRef(null);
+  // const canvasAnswerHoverRef = useRef(null);
   const [playGrid, setPlayGrid] = useState([]);
-  const [answerGrid, setAnswerGrid] = useState([
+  const [answerGrid] = useState([
     { xStart: 100, yStart: 225, xEnd: 375, yEnd: 275 },
     { xStart: 100, yStart: 295, xEnd: 375, yEnd: 350 },
     { xStart: 425, yStart: 225, xEnd: 700, yEnd: 275 },
@@ -193,90 +195,90 @@ const QuizCanvas = props => {
   //   );
   // }, [showCanvas, allQuizQuestions, questionPicked, quizzes]);
 
-  const mouseMoveHandler = e => {
-    // console.log("canvas", canvasHoverRef.current);
-    if (canvasHoverRef.current.getBoundingClientRect() !== null) {
-      let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
-      let relativeX = e.clientX - relativeOffset.left;
-      let relativeY = e.clientY - relativeOffset.top;
+  // const mouseMoveHandler = e => {
+  //   // console.log("canvas", canvasHoverRef.current);
+  //   if (canvasHoverRef.current.getBoundingClientRect() !== null) {
+  //     let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
+  //     let relativeX = e.clientX - relativeOffset.left;
+  //     let relativeY = e.clientY - relativeOffset.top;
 
-      const mousePosition = { x: relativeX, y: relativeY };
-      if (!showCanvas) {
-        // console.log("quiz selection shown");
-        drawSelectedArea(mousePosition);
-      }
-    } else {
-      console.log("canvas has not finished loading");
-    }
-  };
+  //     const mousePosition = { x: relativeX, y: relativeY };
+  //     if (!showCanvas) {
+  //       // console.log("quiz selection shown");
+  //       drawSelectedArea(mousePosition);
+  //     }
+  //   } else {
+  //     console.log("canvas has not finished loading");
+  //   }
+  // };
 
-  const answerMouseHandler = e => {
-    if (
-      canvasAnswerHoverRef.current.getBoundingClientRect() !== null &&
-      showCanvas
-    ) {
-      const cnvs = canvasAnswerHoverRef.current;
-      const ctx = cnvs.getContext("2d");
+  // const answerMouseHandler = e => {
+  //   if (
+  //     canvasAnswerHoverRef.current.getBoundingClientRect() !== null &&
+  //     showCanvas
+  //   ) {
+  //     const cnvs = canvasAnswerHoverRef.current;
+  //     const ctx = cnvs.getContext("2d");
 
-      let relativeOffset = canvasAnswerHoverRef.current.getBoundingClientRect();
-      let relativeX = e.clientX - relativeOffset.left;
-      let relativeY = e.clientY - relativeOffset.top;
+  //     let relativeOffset = canvasAnswerHoverRef.current.getBoundingClientRect();
+  //     let relativeX = e.clientX - relativeOffset.left;
+  //     let relativeY = e.clientY - relativeOffset.top;
 
-      const mousePosition = { x: relativeX, y: relativeY };
+  //     const mousePosition = { x: relativeX, y: relativeY };
 
-      // if (showCanvas) {
-      // console.log("answer show", mousePosition);
-      answerHoverArea(cnvs, ctx, mousePosition, answerGrid, showCanvas);
-      // }
-    }
-  };
+  //     // if (showCanvas) {
+  //     // console.log("answer show", mousePosition);
+  //     answerHoverArea(cnvs, ctx, mousePosition, answerGrid, showCanvas);
+  //     // }
+  //   }
+  // };
 
   // highlight sqaure at mouse position
-  const drawSelectedArea = mousePosition => {
-    const cnvs = canvasHoverRef.current;
-    const ctx = cnvs.getContext("2d");
+  // const drawSelectedArea = mousePosition => {
+  //   const cnvs = canvasHoverRef.current;
+  //   const ctx = cnvs.getContext("2d");
 
-    drawHoveringArea(cnvs, ctx, mousePosition, playGrid);
-  };
+  //   drawHoveringArea(cnvs, ctx, mousePosition, playGrid);
+  // };
 
   // initial drawing of the board, not populating any of the text, event listener mousemove
-  useEffect(() => {
-    // const cnvs = canvasRef.current;
-    // const ctx = cnvs.getContext("2d");
-    // drawPlayboard(
-    //   cnvs,
-    //   ctx
-    //   { x: 0, y: 0 },
-    //   showCanvas,
-    //   quizzes,
-    //   questionsBoardClickHandler
-    // );
-    // if (canvasHoverRef.current !== null)
-    //   canvasHoverRef.current.addEventListener(
-    //     "mousemove",
-    //     mouseMoveHandler,
-    //     false
-    //   );
-    // if (canvasAnswerHoverRef.current !== null) {
-    //   canvasAnswerHoverRef.current.addEventListener(
-    //     "mousemove",
-    //     answerMouseHandler,
-    //     false
-    //   );
-    // }
-    // return () => {
-    //   canvasHoverRef.current.removeEventListener(
-    //     "mousemove",
-    //     mouseMoveHandler,
-    //     false
-    //   );
-    //   canvasAnswerHoverRef.current.removeEventListener(
-    //     "mousemove",
-    //     answerMouseHandler,
-    //     false
-    //   );
-    // };
-  }, [showCanvas, playGrid]);
+  // useEffect(() => {
+  // const cnvs = canvasRef.current;
+  // const ctx = cnvs.getContext("2d");
+  // drawPlayboard(
+  //   cnvs,
+  //   ctx
+  //   { x: 0, y: 0 },
+  //   showCanvas,
+  //   quizzes,
+  //   questionsBoardClickHandler
+  // );
+  // if (canvasHoverRef.current !== null)
+  //   canvasHoverRef.current.addEventListener(
+  //     "mousemove",
+  //     mouseMoveHandler,
+  //     false
+  //   );
+  // if (canvasAnswerHoverRef.current !== null) {
+  //   canvasAnswerHoverRef.current.addEventListener(
+  //     "mousemove",
+  //     answerMouseHandler,
+  //     false
+  //   );
+  // }
+  // return () => {
+  //   canvasHoverRef.current.removeEventListener(
+  //     "mousemove",
+  //     mouseMoveHandler,
+  //     false
+  //   );
+  //   canvasAnswerHoverRef.current.removeEventListener(
+  //     "mousemove",
+  //     answerMouseHandler,
+  //     false
+  //   );
+  // };
+  // }, [showCanvas, playGrid]);
 
   useEffect(() => {
     let animationFrameId;
@@ -310,112 +312,112 @@ const QuizCanvas = props => {
     };
   });
 
-  const populateBoardText = () => {
-    const cnvsText = canvasTextRef.current;
-    const ctxText = cnvsText.getContext("2d");
-    // console.log("topics " + quizzes[0].topic);
-    if (quizzes.length !== 0) populateBoard(ctxText, quizzes);
-  };
+  // const populateBoardText = () => {
+  //   const cnvsText = canvasTextRef.current;
+  //   const ctxText = cnvsText.getContext("2d");
+  //   // console.log("topics " + quizzes[0].topic);
+  //   if (quizzes.length !== 0) populateBoard(ctxText, quizzes);
+  // };
 
   // useEffect(() => {
   //   populateBoardText();
   //   // return () => {};
   // }, [quizzes]);
 
-  const displayQuestionAndAnswers = (quizId, questionId) => {
-    const cnvsQuestion = canvasQuizQuestion.current;
-    const ctxQuestion = cnvsQuestion.getContext("2d");
+  // const displayQuestionAndAnswers = (quizId, questionId) => {
+  //   const cnvsQuestion = canvasQuizQuestion.current;
+  //   const ctxQuestion = cnvsQuestion.getContext("2d");
 
-    let filteredQuiz = allQuizQuestions.filter(quiz => {
-      return quiz[0] === quizId;
-    });
+  //   let filteredQuiz = allQuizQuestions.filter(quiz => {
+  //     return quiz[0] === quizId;
+  //   });
 
-    ctxQuestion.clearRect(
-      0,
-      0,
-      ctxQuestion.canvas.width,
-      ctxQuestion.canvas.height
-    );
+  //   ctxQuestion.clearRect(
+  //     0,
+  //     0,
+  //     ctxQuestion.canvas.width,
+  //     ctxQuestion.canvas.height
+  //   );
 
-    ctxQuestion.font = "14pt Arial";
-    ctxQuestion.fillStyle = "#fff";
+  //   ctxQuestion.font = "14pt Arial";
+  //   ctxQuestion.fillStyle = "#fff";
 
-    if (filteredQuiz.length !== 0) {
-      // console.log("filtered ", filteredQuiz);
-      // console.log(
-      //   "selected question ",
-      //   filteredQuiz[0][1][questionId].question
-      // );
-      // console.log("Answers", filteredQuiz[0][1][questionId].options);
-      // console.log(
-      //   "questionLength",
-      //   ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
-      // );
-      ctxQuestion.textAlign = "center";
-      ctxQuestion.fillText(
-        `${filteredQuiz[0][1][questionId].question}`,
-        400,
-        100
-      );
+  //   if (filteredQuiz.length !== 0) {
+  //     // console.log("filtered ", filteredQuiz);
+  //     // console.log(
+  //     //   "selected question ",
+  //     //   filteredQuiz[0][1][questionId].question
+  //     // );
+  //     // console.log("Answers", filteredQuiz[0][1][questionId].options);
+  //     // console.log(
+  //     //   "questionLength",
+  //     //   ctxQuestion.measureText(filteredQuiz[0][1][questionId].question).width
+  //     // );
+  //     ctxQuestion.textAlign = "center";
+  //     ctxQuestion.fillText(
+  //       `${filteredQuiz[0][1][questionId].question}`,
+  //       400,
+  //       100
+  //     );
 
-      filteredQuiz[0][1][questionId].options.forEach((answer, index) => {
-        // ctxQuestion.fillText(`${answer}`, 125, 125 + index * 25);
+  //     filteredQuiz[0][1][questionId].options.forEach((answer, index) => {
+  //       // ctxQuestion.fillText(`${answer}`, 125, 125 + index * 25);
 
-        if (index < 2) {
-          ctxQuestion.beginPath();
-          ctxQuestion.rect(
-            answerGrid[index].xStart,
-            answerGrid[index].yStart,
-            275,
-            50
-          );
-          ctxQuestion.fillStyle = "#0c76cc";
-          ctxQuestion.fill();
-          ctxQuestion.closePath();
-          ctxQuestion.fillStyle = "#fff";
-          ctxQuestion.textAlign = "start";
-          ctxQuestion.fillText(`${answer}`, 125, 258 + index * 70);
-        } else {
-          ctxQuestion.beginPath();
-          ctxQuestion.rect(
-            answerGrid[index].xStart,
-            answerGrid[index].yStart,
-            275,
-            50
-          );
-          ctxQuestion.fillStyle = "#0c76cc";
-          ctxQuestion.fill();
-          ctxQuestion.closePath();
-          ctxQuestion.fillStyle = "#fff";
-          ctxQuestion.textAlign = "start";
-          ctxQuestion.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
-        }
-      });
-    }
-  };
+  //       if (index < 2) {
+  //         ctxQuestion.beginPath();
+  //         ctxQuestion.rect(
+  //           answerGrid[index].xStart,
+  //           answerGrid[index].yStart,
+  //           275,
+  //           50
+  //         );
+  //         ctxQuestion.fillStyle = "#0c76cc";
+  //         ctxQuestion.fill();
+  //         ctxQuestion.closePath();
+  //         ctxQuestion.fillStyle = "#fff";
+  //         ctxQuestion.textAlign = "start";
+  //         ctxQuestion.fillText(`${answer}`, 125, 258 + index * 70);
+  //       } else {
+  //         ctxQuestion.beginPath();
+  //         ctxQuestion.rect(
+  //           answerGrid[index].xStart,
+  //           answerGrid[index].yStart,
+  //           275,
+  //           50
+  //         );
+  //         ctxQuestion.fillStyle = "#0c76cc";
+  //         ctxQuestion.fill();
+  //         ctxQuestion.closePath();
+  //         ctxQuestion.fillStyle = "#fff";
+  //         ctxQuestion.textAlign = "start";
+  //         ctxQuestion.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
+  //       }
+  //     });
+  //   }
+  // };
 
   // show question canvas and set quiz and question index
-  const questionsBoardClickHandler = (event, quizIndex, questionIndex) => {
-    event.preventDefault();
-    // console.log("selected changed", playGrid, quizIndex, questionIndex);
-    // console.log("visibility: ", showCanvas);
-    setPickedQuizId(quizzes[quizIndex].id);
-    setQuestionPicked(questionIndex);
-    setShowCanvas(true);
-  };
+  // const questionsBoardClickHandler = (event, quizIndex, questionIndex) => {
+  //   event.preventDefault();
+  //   // console.log("selected changed", playGrid, quizIndex, questionIndex);
+  //   // console.log("visibility: ", showCanvas);
+  //   setPickedQuizId(quizzes[quizIndex].id);
+  //   setQuestionPicked(questionIndex);
+  //   setShowCanvas(true);
+  // };
 
-  useEffect(() => {
-    // console.log("picked new question ID", pickedQuizId);
-    if (pickedQuizId !== null) {
-      displayQuestionAndAnswers(pickedQuizId, questionPicked);
-    } else {
-      console.log("not going to display question text");
-    }
+  // useEffect(() => {
+  //   // console.log("picked new question ID", pickedQuizId);
+  //   if (pickedQuizId !== null) {
+  //     displayQuestionAndAnswers(pickedQuizId, questionPicked);
+  //   } else {
+  //     console.log("not going to display question text");
+  //   }
 
-    // return () => {
-    //   cleanup
-    // }
-  }, [allQuizQuestions]);
+  //   // return () => {
+  //   //   cleanup
+  //   // }
+  // }, [allQuizQuestions]);
 
   useEffect(() => {
     // console.log(pickedQuizId, questionPicked);
@@ -440,7 +442,7 @@ const QuizCanvas = props => {
           allQuizQuestions[0][1][questionPicked]
         );
     }
-  }, [pickedQuizId, questionPicked, allQuizQuestions]);
+  }, [pickedQuizId, questionPicked, allQuizQuestions, quizzes]);
 
   return (
     <div>
@@ -511,7 +513,7 @@ const QuizCanvas = props => {
         />
 
         {/* canvas used to display the selected question with the possible answers */}
-        <canvas
+        {/* <canvas
           id='quiz-question-canvas'
           width={800}
           height={420}
@@ -524,10 +526,17 @@ const QuizCanvas = props => {
             top: "155px",
             // border: "1px solid whitesmoke",
           }}
+        /> */}
+        <QuestionCanvas
+          quizId={pickedQuizId}
+          questionId={questionPicked}
+          allQuizQuestions={allQuizQuestions}
+          showCanvas={showCanvas}
+          answerGrid={answerGrid}
         />
 
         {/* canvas used to highlight the answer the mouse is hovering over */}
-        <canvas
+        {/* <canvas
           id='quiz-question-canvas-hover'
           ref={canvasAnswerHoverRef}
           width={800}
@@ -539,6 +548,14 @@ const QuizCanvas = props => {
             top: "155px",
             // border: "2px solid green",
           }}
+        /> */}
+        <QuestionHoverAndClickCanvas
+          answerGrid={answerGrid}
+          setPickedAnswer={setPickedAnswer}
+          allQuizQuestions={allQuizQuestions}
+          showCanvas={showCanvas}
+          pickedQuizId={pickedQuizId}
+          questionPicked={questionPicked}
         />
       </div>
     </div>

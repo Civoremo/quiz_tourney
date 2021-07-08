@@ -6,11 +6,11 @@ import {
   populateBoard,
   drawHoveringArea,
   answerHoverArea,
-} from "./Functions/index";
+} from "../Functions/index";
 
-import GridCanvas from "./Functions/gridCanvas";
-import QuizTextCanvas from "./Functions/quizTextCanvas";
-import QuizHoverAndClickCanvas from "./Functions/quizHoverAndClickCanvas";
+import GridCanvas from "./gridCanvas";
+import QuizTextCanvas from "./quizTextCanvas";
+import QuizHoverAndClickCanvas from "./quizHoverAndClickCanvas";
 
 // const columns = 6;
 // const rows = 6;

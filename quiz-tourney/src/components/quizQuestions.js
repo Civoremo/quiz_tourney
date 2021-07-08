@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllQuizQuestions } from "../actions/index";
 import { checkAnswerToQuestion } from "../actions/checkQuestionAnswer";
 
-import QuizCanvas from "./quizCanvas";
+import QuizCanvas from "./canvas/quizCanvas";
 
 const QuizQuestions = props => {
   const { pickedQuizId, quizzes, setPickedQuizId } = props;

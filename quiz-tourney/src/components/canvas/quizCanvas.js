@@ -1,17 +1,18 @@
 /** @format */
 
-import React, { useRef, useEffect, useState } from "react";
-import {
-  drawPlayboard,
-  populateBoard,
-  drawHoveringArea,
-  answerHoverArea,
-} from "../Functions/index";
+import React, { useEffect, useState } from "react";
+// import {
+//   drawPlayboard,
+//   populateBoard,
+//   drawHoveringArea,
+//   answerHoverArea,
+// } from "../Functions/index";
 
 import GridCanvas from "./gridCanvas";
 import QuizTextCanvas from "./quizTextCanvas";
 import QuizHoverAndClickCanvas from "./quizHoverAndClickCanvas";
-import QuestionAndClickCanvas from "./questionAndClickCanvas";
+import QuestionCanvas from "./questionCanvas";
+import QuestionHoverAndClickCanvas from "./questionHoverAndClickCanvas";
 
 // const columns = 6;
 // const rows = 6;
@@ -30,13 +31,13 @@ const QuizCanvas = props => {
   const [showCanvas, setShowCanvas] = useState(false);
   // const [clickedQuiz, setClickedQuiz] = useState(false);
   // const [questionPicked, setQuestionPicked] = useState(null);
-  const canvasRef = useRef(null);
-  const canvasTextRef = useRef(null);
-  const canvasQuizQuestion = useRef(null);
-  const canvasHoverRef = useRef(null);
-  const canvasAnswerHoverRef = useRef(null);
+  // const canvasRef = useRef(null);
+  // const canvasTextRef = useRef(null);
+  // const canvasQuizQuestion = useRef(null);
+  // const canvasHoverRef = useRef(null);
+  // const canvasAnswerHoverRef = useRef(null);
   const [playGrid, setPlayGrid] = useState([]);
-  const [answerGrid, setAnswerGrid] = useState([
+  const [answerGrid] = useState([
     { xStart: 100, yStart: 225, xEnd: 375, yEnd: 275 },
     { xStart: 100, yStart: 295, xEnd: 375, yEnd: 350 },
     { xStart: 425, yStart: 225, xEnd: 700, yEnd: 275 },
@@ -441,7 +442,7 @@ const QuizCanvas = props => {
           allQuizQuestions[0][1][questionPicked]
         );
     }
-  }, [pickedQuizId, questionPicked, allQuizQuestions]);
+  }, [pickedQuizId, questionPicked, allQuizQuestions, quizzes]);
 
   return (
     <div>
@@ -526,15 +527,16 @@ const QuizCanvas = props => {
             // border: "1px solid whitesmoke",
           }}
         /> */}
-        <QuestionAndClickCanvas
+        <QuestionCanvas
           quizId={pickedQuizId}
           questionId={questionPicked}
           allQuizQuestions={allQuizQuestions}
           showCanvas={showCanvas}
+          answerGrid={answerGrid}
         />
 
         {/* canvas used to highlight the answer the mouse is hovering over */}
-        <canvas
+        {/* <canvas
           id='quiz-question-canvas-hover'
           ref={canvasAnswerHoverRef}
           width={800}
@@ -546,6 +548,14 @@ const QuizCanvas = props => {
             top: "155px",
             // border: "2px solid green",
           }}
+        /> */}
+        <QuestionHoverAndClickCanvas
+          answerGrid={answerGrid}
+          setPickedAnswer={setPickedAnswer}
+          allQuizQuestions={allQuizQuestions}
+          showCanvas={showCanvas}
+          pickedQuizId={pickedQuizId}
+          questionPicked={questionPicked}
         />
       </div>
     </div>

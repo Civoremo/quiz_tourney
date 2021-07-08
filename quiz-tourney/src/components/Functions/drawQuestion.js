@@ -22,6 +22,7 @@ export const drawQuestion = (
   ctx.fillStyle = "#fff";
 
   if (filteredQuiz.length !== 0) {
+    console.log("answer GRID", answerGrid);
     // console.log("filtered ", filteredQuiz);
     // console.log(
     //   "selected question ",

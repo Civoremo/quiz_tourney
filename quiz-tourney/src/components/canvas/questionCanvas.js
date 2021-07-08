@@ -4,19 +4,20 @@ import React, { useRef, useEffect, useState } from "react";
 
 import { drawQuestion } from "../Functions/drawQuestion";
 
-const QuestionAndClickCanvas = ({
+const QuestionCanvas = ({
   quizId,
   questionId,
   allQuizQuestions,
   showCanvas,
+  answerGrid,
 }) => {
   const canvasQuizQuestionRef = useRef(null);
-  const [answerGrid, setAnswerGrid] = useState([
-    { xStart: 100, yStart: 225, xEnd: 375, yEnd: 275 },
-    { xStart: 100, yStart: 295, xEnd: 375, yEnd: 350 },
-    { xStart: 425, yStart: 225, xEnd: 700, yEnd: 275 },
-    { xStart: 425, yStart: 295, xEnd: 700, yEnd: 350 },
-  ]);
+  //   const [answerGrid, setAnswerGrid] = useState([
+  //     { xStart: 100, yStart: 225, xEnd: 375, yEnd: 275 },
+  //     { xStart: 100, yStart: 295, xEnd: 375, yEnd: 350 },
+  //     { xStart: 425, yStart: 225, xEnd: 700, yEnd: 275 },
+  //     { xStart: 425, yStart: 295, xEnd: 700, yEnd: 350 },
+  //   ]);
 
   useEffect(() => {
     const cnvs = canvasQuizQuestionRef.current;
@@ -43,4 +44,4 @@ const QuestionAndClickCanvas = ({
   );
 };
 
-export default QuestionAndClickCanvas;
+export default QuestionCanvas;

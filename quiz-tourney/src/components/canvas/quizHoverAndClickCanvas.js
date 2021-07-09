@@ -117,12 +117,12 @@ const QuizHoverAndClickCanvas = ({
     <canvas
       id='canvas-hover-area'
       width={800}
-      height={700}
+      height={500}
       ref={canvasHoverRef}
       style={{
         zIndex: "15",
         position: "absolute",
-        // top: "0px",
+        top: "23px",
         border: "2px solid orange",
       }}
       onClick={event => {

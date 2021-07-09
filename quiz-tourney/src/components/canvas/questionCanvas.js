@@ -25,14 +25,14 @@ const QuestionCanvas = ({
     <canvas
       id='quiz-question-canvas'
       width={800}
-      height={700}
+      height={420}
       ref={canvasQuizQuestionRef}
       style={{
         background: "#003366",
         zIndex: "20",
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
-        // top: "205px",
+        top: "108px",
         // border: "1px solid whitesmoke",
       }}
     />

@@ -85,10 +85,10 @@ const QuizCanvas = props => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <span>Player Score: </span>
         <span>{playerScore}</span>
-      </div>
+      </div> */}
       <div
         style={{
           height: "750px",
@@ -97,6 +97,7 @@ const QuizCanvas = props => {
           justifyContent: "center",
           alignItems: "center",
           border: "1px solid red",
+          position: "relative",
         }}
       >
         <GridCanvas quizzes={quizzes} setPlayGrid={setPlayGrid} />

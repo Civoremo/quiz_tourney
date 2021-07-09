@@ -14,12 +14,12 @@ const QuestionCanvas = ({
   const canvasQuizQuestionRef = useRef(null);
 
   useEffect(() => {
-    console.log("question picked and time to display");
+    // console.log("question picked and time to display");
     const cnvs = canvasQuizQuestionRef.current;
     const ctx = cnvs.getContext("2d");
 
     drawQuestion(ctx, answerGrid, quizId, questionId, allQuizQuestions);
-  }, [allQuizQuestions]);
+  }, [allQuizQuestions, showCanvas]);
 
   return (
     <canvas

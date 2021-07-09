@@ -8,7 +8,6 @@ export const populateBoard = (ctxText, quizzes, playGrid) => {
   let pointsValue = 0;
   ctxText.clearRect(0, 0, ctxText.canvas.width, ctxText.canvas.height);
   ctxText.linewidth = 1;
-  let squareCount = 0;
 
   for (let i = 0; i < rows; i++) {
     pointsValue = 0;
@@ -44,11 +43,14 @@ export const populateBoard = (ctxText, quizzes, playGrid) => {
           );
         }
       } else {
-        squareCount++;
         // console.log(playGrid[squareCount]);
+        // console.log("J", j, i * 6, j + i * 6);
+        let index = i + 6 * (j - 1);
 
-        if (!playGrid[squareCount - 1].selected) {
-          pointsValue += 200;
+        if (!playGrid[index].selected) {
+          //   console.log("column", quizzes[i].title, i, j);
+          //   console.log("index", i + 6 * (j - 1));
+          pointsValue = 200 * j;
           ctxText.font = "25px Arial";
           ctxText.fillStyle = "whitesmoke";
           let textHeight =

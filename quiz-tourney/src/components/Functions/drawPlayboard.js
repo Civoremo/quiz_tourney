@@ -15,7 +15,6 @@ export const drawPlayboard = (cnvs, ctx, playGrid) => {
   let titleSquareHeight = 500 / rows;
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   ctx.linewidth = 1;
-  let squareCount = 0;
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < columns; j++) {
@@ -31,13 +30,13 @@ export const drawPlayboard = (cnvs, ctx, playGrid) => {
         ctx.stroke();
         ctx.closePath();
       } else {
-        squareCount++;
         let x = squareSizeWidth * i;
         let y = squareSizeHeight * j;
+        let index = i + 6 * (j - 1);
 
         // console.log("COUNT", squareCount);
         // console.log("draw grid", playGrid[squareCount]);
-        if (!playGrid[squareCount - 1].selected) {
+        if (!playGrid[index].selected) {
           ctx.beginPath();
           ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
           ctx.fillStyle = "blue";

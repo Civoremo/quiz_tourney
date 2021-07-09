@@ -61,11 +61,11 @@ const QuizCanvas = props => {
   // });
 
   useEffect(() => {
-    console.log(
-      "setting new quizID and question Index",
-      pickedQuizId,
-      questionPicked
-    );
+    // console.log(
+    //   "setting new quizID and question Index",
+    //   pickedQuizId,
+    //   questionPicked
+    // );
     if (
       pickedQuizId !== null &&
       questionPicked !== null &&
@@ -73,7 +73,7 @@ const QuizCanvas = props => {
     ) {
       console.log(
         "quiz selected",
-        quizzes.filter(quiz => quiz.id === pickedQuizId)
+        quizzes.filter(quiz => quiz.id === pickedQuizId)[0]
       );
       if (allQuizQuestions.length > 0)
         console.log(
@@ -81,7 +81,7 @@ const QuizCanvas = props => {
           allQuizQuestions[0][1][questionPicked]
         );
     }
-  }, [questionPicked]);
+  }, [allQuizQuestions]);
 
   return (
     <div>

@@ -15,7 +15,7 @@ const QuizTextCanvas = ({ quizzes, playGrid, showCanvas }) => {
       // console.log("loaded text and ready for clicks");
       populateBoard(ctx, quizzes);
     }
-  }, [quizzes, playGrid, showCanvas]);
+  }, [quizzes, playGrid]);
 
   return (
     <canvas

@@ -7,6 +7,7 @@ import { answerHoverArea } from "../Functions";
 const QuestionHoverAndClickCanvas = ({
   answerGrid,
   setPickedAnswer,
+  pickedAnswer,
   allQuizQuestions,
   showCanvas,
   setShowCanvas,
@@ -16,50 +17,40 @@ const QuestionHoverAndClickCanvas = ({
 }) => {
   const canvasAnswerHoverRef = useRef(null);
 
-  const answerClickHandler = cnvs => {
+  const answerClickHandler = (event, cnvs) => {
     // const cnvs = canvasAnswerHoverRef.current;
     let relativeOffset = cnvs.getBoundingClientRect();
-    let relativeX;
-    let relativeY;
-    cnvs.addEventListener(
-      "click",
-      event => {
-        event.stopPropagation();
-        relativeX = event.clientX - relativeOffset.left;
-        relativeY = event.clientY - relativeOffset.top;
-        // console.log("realtive", { x: relativeX, y: relativeY });
-        if (showCanvas) {
-          for (let pos in answerGrid) {
-            if (
-              relativeX > answerGrid[pos].xStart &&
-              relativeX < answerGrid[pos].xEnd &&
-              relativeY > answerGrid[pos].yStart &&
-              relativeY < answerGrid[pos].yEnd
-            ) {
-              let filteredQuiz = allQuizQuestions.filter(quiz => {
-                return quiz[0] === pickedQuizId;
-              });
+    let relativeX = event.clientX - relativeOffset.left;
+    let relativeY = event.clientY - relativeOffset.top;
 
-              if (filteredQuiz.length > 0) {
-                if (filteredQuiz[0][1][questionPicked] !== undefined) {
-                  setPickedAnswer([
-                    filteredQuiz[0][0],
-                    filteredQuiz[0][1][questionPicked].id,
-                    parseInt(pos),
-                  ]);
-                } else {
-                  console.log(
-                    "id undefined",
-                    filteredQuiz[0][1][questionPicked]
-                  );
-                }
-              }
+    event.stopPropagation();
+    // console.log("realtive", { x: relativeX, y: relativeY });
+    if (showCanvas) {
+      for (let pos in answerGrid) {
+        if (
+          relativeX > answerGrid[pos].xStart &&
+          relativeX < answerGrid[pos].xEnd &&
+          relativeY > answerGrid[pos].yStart &&
+          relativeY < answerGrid[pos].yEnd
+        ) {
+          let filteredQuiz = allQuizQuestions.filter(quiz => {
+            return quiz[0] === pickedQuizId;
+          });
+
+          if (filteredQuiz.length > 0) {
+            if (filteredQuiz[0][1][questionPicked] !== undefined) {
+              setPickedAnswer([
+                filteredQuiz[0][0],
+                filteredQuiz[0][1][questionPicked].id,
+                parseInt(pos),
+              ]);
+            } else {
+              console.log("id undefined", filteredQuiz[0][1][questionPicked]);
             }
           }
         }
-      },
-      false
-    );
+      }
+    }
   };
 
   const answerMouseMoveHandler = e => {
@@ -76,10 +67,7 @@ const QuestionHoverAndClickCanvas = ({
 
       const mousePosition = { x: relativeX, y: relativeY };
 
-      // if (showCanvas) {
-      // console.log("answer show", mousePosition);
       answerHoverArea(cnvs, ctx, mousePosition, answerGrid, showCanvas);
-      // }
     }
   };
 
@@ -92,7 +80,11 @@ const QuestionHoverAndClickCanvas = ({
     const cnvs = canvasAnswerHoverRef.current;
 
     cnvs.addEventListener("mousemove", answerMouseMoveHandler, false);
-    answerClickHandler(cnvs);
+
+    return () => {
+      console.log("removed question listener");
+      cnvs.removeEventListener("mousemove", answerMouseMoveHandler, false);
+    };
   }, [showCanvas, allQuizQuestions]);
 
   return (
@@ -107,6 +99,9 @@ const QuestionHoverAndClickCanvas = ({
         position: "absolute",
         top: "155px",
         border: "2px solid green",
+      }}
+      onClick={event => {
+        answerClickHandler(event, canvasAnswerHoverRef.current);
       }}
     />
   );

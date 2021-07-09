@@ -59,7 +59,7 @@ const GridCanvas = ({ quizzes, setPlayGrid }) => {
         background: "#222",
         zIndex: "1",
         position: "absolute",
-        // border: "1px solid red",
+        border: "1px solid red",
       }}
     />
   );

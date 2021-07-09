@@ -32,7 +32,7 @@ const QuestionCanvas = ({
         zIndex: "20",
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
-        top: "155px",
+        top: "108px",
         // border: "1px solid whitesmoke",
       }}
     />

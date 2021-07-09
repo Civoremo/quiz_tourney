@@ -19,6 +19,7 @@ const QuizCanvas = props => {
     answerChecked,
   } = props;
   const { questionPicked, setQuestionPicked } = props;
+  const [playerScore, setPlayerScore] = useState(0);
   const [showCanvas, setShowCanvas] = useState(false);
   const [playGrid, setPlayGrid] = useState([]);
   const [answerGrid] = useState([
@@ -84,6 +85,10 @@ const QuizCanvas = props => {
 
   return (
     <div>
+      {/* <div>
+        <span>Player Score: </span>
+        <span>{playerScore}</span>
+      </div> */}
       <div
         style={{
           height: "750px",
@@ -91,6 +96,8 @@ const QuizCanvas = props => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          border: "1px solid red",
+          position: "relative",
         }}
       >
         <GridCanvas quizzes={quizzes} setPlayGrid={setPlayGrid} />

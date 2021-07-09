@@ -97,7 +97,7 @@ const QuestionHoverAndClickCanvas = ({
         zIndex: "25",
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
-        top: "155px",
+        top: "108px",
         border: "2px solid green",
       }}
       onClick={event => {

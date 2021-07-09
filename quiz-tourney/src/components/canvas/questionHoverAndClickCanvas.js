@@ -92,12 +92,12 @@ const QuestionHoverAndClickCanvas = ({
       id='quiz-question-canvas-hover'
       ref={canvasAnswerHoverRef}
       width={800}
-      height={420}
+      height={700}
       style={{
         zIndex: "25",
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
-        top: "155px",
+        // top: "205px",
         border: "2px solid green",
       }}
       onClick={event => {

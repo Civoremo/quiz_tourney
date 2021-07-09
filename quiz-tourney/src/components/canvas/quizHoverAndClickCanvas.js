@@ -20,7 +20,7 @@ const QuizHoverAndClickCanvas = ({
     const cnvs = canvasHoverRef.current;
     const ctx = cnvs.getContext("2d");
     if (cnvs.getBoundingClientRect() !== null) {
-      let relativeOffset = cnvs.getBoundingClientRect();
+      let relativeOffset = canvasHoverRef.current.getBoundingClientRect();
       let relativeX = e.clientX - relativeOffset.left;
       let relativeY = e.clientY - relativeOffset.top;
 
@@ -117,13 +117,13 @@ const QuizHoverAndClickCanvas = ({
     <canvas
       id='canvas-hover-area'
       width={800}
-      height={500}
+      height={700}
       ref={canvasHoverRef}
       style={{
         zIndex: "15",
         position: "absolute",
-        top: "75px",
-        // border: "2px solid orange",
+        // top: "0px",
+        border: "2px solid orange",
       }}
       onClick={event => {
         clickHandler(event, canvasHoverRef.current, playGrid);

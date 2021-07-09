@@ -96,9 +96,10 @@ const QuizHoverAndClickCanvas = ({
                   }
                 })
               );
-            } else {
-              console.log("not clicked withing bounds");
             }
+            // else {
+            //   console.log("not clicked withing bounds");
+            // }
           }
         },
         false

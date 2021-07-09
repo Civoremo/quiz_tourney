@@ -33,7 +33,7 @@ const QuizQuestions = props => {
 
     if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId)) {
       dispatch(getAllQuizQuestions(pickedQuizId));
-      console.log("fetching questions");
+      // console.log("fetching questions");
     }
   }, [pickedQuizId]);
 
@@ -48,7 +48,7 @@ const QuizQuestions = props => {
       dispatch(
         checkAnswerToQuestion(pickedAnswer[0], pickedAnswer[1], pickedAnswer[2])
       );
-      console.log("fetching answer response");
+      // console.log("fetching answer response");
     }
   }, [pickedAnswer]);
 

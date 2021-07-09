@@ -48,62 +48,54 @@ const QuizHoverAndClickCanvas = ({
     }
   };
 
-  const clickHandler = (cnvs, playGrid) => {
+  const clickHandler = (event, cnvs, playGrid) => {
     if (cnvs.getBoundingClientRect !== null) {
       let relativeOffset = cnvs.getBoundingClientRect();
-      let relativeX;
-      let relativeY;
+      let relativeX = event.clientX - relativeOffset.left;
+      let relativeY = event.clientY - relativeOffset.top;
 
-      cnvs.addEventListener(
-        "click",
-        event => {
-          event.stopPropagation();
-          relativeX = event.clientX - relativeOffset.left;
-          relativeY = event.clientY - relativeOffset.top;
-          // console.log("clicked on square");
+      event.stopPropagation();
+      // console.log("clicked on square");
 
-          for (let pos in playGrid) {
-            if (
-              relativeX > playGrid[pos].xTop &&
-              relativeX < playGrid[pos].xEnd &&
-              relativeY > playGrid[pos].yTop &&
-              relativeY < playGrid[pos].yEnd &&
-              relativeY > 85 &&
-              relativeY < 490 &&
-              playGrid[pos].quiz !== undefined &&
-              !showCanvas &&
-              !playGrid[pos].selected
-            ) {
-              // console.log("POS of playGrid", pos);
-              // playGrid[pos].selected = true;
-              questionsBoardClickHandler(
-                event,
-                playGrid[pos].column,
-                playGrid[pos].row
-              );
+      for (let pos in playGrid) {
+        if (
+          relativeX > playGrid[pos].xTop &&
+          relativeX < playGrid[pos].xEnd &&
+          relativeY > playGrid[pos].yTop &&
+          relativeY < playGrid[pos].yEnd &&
+          relativeY > 85 &&
+          relativeY < 490 &&
+          playGrid[pos].quiz !== undefined &&
+          !showCanvas &&
+          !playGrid[pos].selected
+        ) {
+          // console.log("POS of playGrid", pos);
+          // playGrid[pos].selected = true;
+          questionsBoardClickHandler(
+            event,
+            playGrid[pos].column,
+            playGrid[pos].row
+          );
 
-              setPlayGrid(
-                [...playGrid].map((object, index) => {
-                  // console.log(index === parseInt(pos));
-                  if (index === parseInt(pos)) {
-                    // console.log(object);
-                    return {
-                      ...object,
-                      selected: true,
-                    };
-                  } else {
-                    return object;
-                  }
-                })
-              );
-            }
-            // else {
-            //   console.log("not clicked withing bounds");
-            // }
-          }
-        },
-        false
-      );
+          setPlayGrid(
+            [...playGrid].map((object, index) => {
+              // console.log(index === parseInt(pos));
+              if (index === parseInt(pos)) {
+                // console.log(object);
+                return {
+                  ...object,
+                  selected: true,
+                };
+              } else {
+                return object;
+              }
+            })
+          );
+        }
+        // else {
+        //   console.log("not clicked withing bounds");
+        // }
+      }
     }
   };
 
@@ -113,9 +105,13 @@ const QuizHoverAndClickCanvas = ({
 
     if (playGrid.length > 0) {
       cnvs.addEventListener("mousemove", mouseMoveHandler, false);
-      clickHandler(cnvs, playGrid);
     }
-  }, [showCanvas, playGrid, quizzes]);
+
+    return () => {
+      console.log("removed quiz listener");
+      cnvs.removeEventListener("mousemove", mouseMoveHandler, false);
+    };
+  }, [playGrid, showCanvas]);
 
   return (
     <canvas
@@ -128,6 +124,9 @@ const QuizHoverAndClickCanvas = ({
         position: "absolute",
         top: "75px",
         // border: "2px solid orange",
+      }}
+      onClick={event => {
+        clickHandler(event, canvasHoverRef.current, playGrid);
       }}
     />
   );

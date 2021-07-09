@@ -15,6 +15,7 @@ const QuizCanvas = props => {
     setPickedQuizId,
     allQuizQuestions,
     setPickedAnswer,
+    pickedAnswer,
     answerChecked,
   } = props;
   const { questionPicked, setQuestionPicked } = props;
@@ -79,7 +80,7 @@ const QuizCanvas = props => {
           allQuizQuestions[0][1][questionPicked]
         );
     }
-  }, [pickedQuizId, questionPicked, allQuizQuestions, quizzes]);
+  }, [questionPicked]);
 
   return (
     <div>
@@ -125,6 +126,7 @@ const QuizCanvas = props => {
           showCanvas={showCanvas}
           setShowCanvas={setShowCanvas}
           pickedQuizId={pickedQuizId}
+          pickedAnswer={pickedAnswer}
           questionPicked={questionPicked}
           answerChecked={answerChecked}
         />

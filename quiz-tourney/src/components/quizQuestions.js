@@ -44,6 +44,7 @@ const QuizQuestions = props => {
 
   useEffect(() => {
     if (pickedAnswer != null) {
+      console.log("picked -> ", pickedAnswer);
       // params: (quizId, questionsId, answerId)
       dispatch(
         checkAnswerToQuestion(pickedAnswer[0], pickedAnswer[1], pickedAnswer[2])
@@ -98,6 +99,7 @@ const QuizQuestions = props => {
           questionPicked={questionPicked}
           setQuestionPicked={setQuestionPicked}
           setPickedAnswer={setPickedAnswer}
+          pickedAnswer={pickedAnswer}
           answerChecked={answerChecked}
         />
       </div>

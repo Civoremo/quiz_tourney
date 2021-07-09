@@ -4,7 +4,7 @@ import React, { useRef, useEffect } from "react";
 
 import { drawPlayboard } from "../Functions/drawPlayboard";
 
-const GridCanvas = ({ quizzes, setPlayGrid }) => {
+const GridCanvas = ({ quizzes, playGrid, setPlayGrid }) => {
   const canvasRef = useRef(null);
 
   const storePlayGrid = quizzes => {
@@ -45,9 +45,21 @@ const GridCanvas = ({ quizzes, setPlayGrid }) => {
     const cnvs = canvasRef.current;
     const ctx = cnvs.getContext("2d");
 
-    drawPlayboard(cnvs, ctx);
+    if (playGrid.length > 0) {
+      // console.log("playgrid is long enough", playGrid.length > 0);
+      drawPlayboard(cnvs, ctx, playGrid);
+    }
     storePlayGrid(quizzes);
   }, [quizzes]);
+
+  useEffect(() => {
+    const cnvs = canvasRef.current;
+    const ctx = cnvs.getContext("2d");
+    if (playGrid.length > 0) {
+      // console.log("playgrid 2 is long enough", playGrid.length > 0);
+      drawPlayboard(cnvs, ctx, playGrid);
+    }
+  }, [playGrid]);
 
   return (
     <canvas

@@ -82,6 +82,7 @@ const QuizHoverAndClickCanvas = ({
               // console.log(index === parseInt(pos));
               if (index === parseInt(pos)) {
                 // console.log(object);
+                console.log("setting change to playgrid");
                 return {
                   ...object,
                   selected: true,

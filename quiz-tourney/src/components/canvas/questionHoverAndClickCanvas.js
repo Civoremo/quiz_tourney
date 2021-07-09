@@ -9,8 +9,10 @@ const QuestionHoverAndClickCanvas = ({
   setPickedAnswer,
   allQuizQuestions,
   showCanvas,
+  setShowCanvas,
   pickedQuizId,
   questionPicked,
+  answerChecked,
 }) => {
   const canvasAnswerHoverRef = useRef(null);
 
@@ -31,12 +33,13 @@ const QuestionHoverAndClickCanvas = ({
             if (
               relativeX > answerGrid[pos].xStart &&
               relativeX < answerGrid[pos].xEnd &&
-              relativeY > answerGrid[pos].yStart + 80 &&
-              relativeY < answerGrid[pos].yEnd + 80
+              relativeY > answerGrid[pos].yStart &&
+              relativeY < answerGrid[pos].yEnd
             ) {
               let filteredQuiz = allQuizQuestions.filter(quiz => {
                 return quiz[0] === pickedQuizId;
               });
+
               if (filteredQuiz.length > 0) {
                 if (filteredQuiz[0][1][questionPicked] !== undefined) {
                   setPickedAnswer([
@@ -81,6 +84,11 @@ const QuestionHoverAndClickCanvas = ({
   };
 
   useEffect(() => {
+    console.log("Answer Response", answerChecked);
+    setShowCanvas(false);
+  }, [answerChecked]);
+
+  useEffect(() => {
     const cnvs = canvasAnswerHoverRef.current;
 
     cnvs.addEventListener("mousemove", answerMouseMoveHandler, false);
@@ -98,7 +106,7 @@ const QuestionHoverAndClickCanvas = ({
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
         top: "155px",
-        // border: "2px solid green",
+        border: "2px solid green",
       }}
     />
   );

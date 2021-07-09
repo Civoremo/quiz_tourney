@@ -554,8 +554,10 @@ const QuizCanvas = props => {
           setPickedAnswer={setPickedAnswer}
           allQuizQuestions={allQuizQuestions}
           showCanvas={showCanvas}
+          setShowCanvas={setShowCanvas}
           pickedQuizId={pickedQuizId}
           questionPicked={questionPicked}
+          answerChecked={answerChecked}
         />
       </div>
     </div>

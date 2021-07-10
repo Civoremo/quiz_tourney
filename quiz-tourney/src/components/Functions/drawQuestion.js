@@ -13,6 +13,7 @@ export const drawQuestion = (
   // console.log("QUESTION DRAW", filteredQuiz, quizId, questionIndex);
   // console.log("QUIZ ID", filteredQuiz[0][0]);
   // console.log("QUIZ Qs", filteredQuiz[0][1][questionIndex]);
+  const lineLengthMax = 550;
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -20,8 +21,30 @@ export const drawQuestion = (
   ctx.fillStyle = "#fff";
 
   if (filteredQuiz.length !== 0) {
+    let question = filteredQuiz[0][1][questionIndex].question;
     ctx.textAlign = "center";
-    ctx.fillText(`${filteredQuiz[0][1][questionIndex].question}`, 400, 100);
+
+    if (ctx.measureText(question).width > lineLengthMax) {
+      let difference = ctx.measureText(question).width - lineLengthMax;
+      let diffCharCount = Math.ceil(difference / 9);
+
+      let startSplitIndex = question.length - diffCharCount;
+
+      while (question.charAt(startSplitIndex) !== " ") {
+        console.log(question.charAt(startSplitIndex), startSplitIndex);
+        startSplitIndex--;
+      }
+
+      let splitQuestion = [];
+      splitQuestion.push(question.slice(0, startSplitIndex));
+      splitQuestion.push(question.slice(-(question.length - startSplitIndex)));
+
+      for (let part in splitQuestion) {
+        ctx.fillText(`${splitQuestion[part]}`, 400, 100 + part * 25);
+      }
+    } else {
+      ctx.fillText(`${question}`, 400, 100);
+    }
 
     filteredQuiz[0][1][questionIndex].options.forEach((answer, index) => {
       if (index < 2) {

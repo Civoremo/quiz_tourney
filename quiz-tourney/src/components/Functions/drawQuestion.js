@@ -13,7 +13,8 @@ export const drawQuestion = (
   // console.log("QUESTION DRAW", filteredQuiz, quizId, questionIndex);
   // console.log("QUIZ ID", filteredQuiz[0][0]);
   // console.log("QUIZ Qs", filteredQuiz[0][1][questionIndex]);
-  const lineLengthMax = 550;
+  const lineLengthMax = 600;
+  const answerLengthMax = 250;
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -31,7 +32,7 @@ export const drawQuestion = (
       let startSplitIndex = question.length - diffCharCount;
 
       while (question.charAt(startSplitIndex) !== " ") {
-        console.log(question.charAt(startSplitIndex), startSplitIndex);
+        // console.log(question.charAt(startSplitIndex), startSplitIndex);
         startSplitIndex--;
       }
 
@@ -47,25 +48,96 @@ export const drawQuestion = (
     }
 
     filteredQuiz[0][1][questionIndex].options.forEach((answer, index) => {
+      // console.log(answer);
       if (index < 2) {
         ctx.beginPath();
         ctx.rect(answerGrid[index].xStart, answerGrid[index].yStart, 275, 50);
         ctx.fillStyle = "#0c76cc";
         ctx.fill();
         ctx.closePath();
-        ctx.fillStyle = "#fff";
-        ctx.textAlign = "start";
-        ctx.fillText(`${answer}`, 125, 258 + index * 70);
       } else {
         ctx.beginPath();
         ctx.rect(answerGrid[index].xStart, answerGrid[index].yStart, 275, 50);
         ctx.fillStyle = "#0c76cc";
         ctx.fill();
         ctx.closePath();
-        ctx.fillStyle = "#fff";
-        ctx.textAlign = "start";
-        ctx.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
       }
+
+      if (ctx.measureText(answer).width > answerLengthMax) {
+        console.log("ANSWER", answer, ctx.measureText(answer).width);
+        let difference = ctx.measureText(answer).width - answerLengthMax;
+        let diffCharCount = Math.ceil(difference / 9);
+
+        let startSplitIndex = answer.length - diffCharCount;
+
+        while (answer.charAt(startSplitIndex) !== " ") {
+          startSplitIndex--;
+          if (startSplitIndex === 0 && answer.charAt(startSplitIndex) !== " ") {
+            console.log("split not found in answer");
+            return;
+          }
+        }
+
+        let splitAnswer = [];
+        splitAnswer.push(answer.slice(0, startSplitIndex));
+        splitAnswer.push(answer.slice(-(answer.length - startSplitIndex - 1)));
+
+        if (index < 2) {
+          for (let part in splitAnswer) {
+            ctx.font = "12pt Arial";
+            ctx.fillStyle = "#fff";
+            ctx.textAlign = "start";
+            ctx.fillText(
+              `${splitAnswer[part]}`,
+              125,
+              246 + index * 70 + 20 * part
+            );
+          }
+        } else {
+          for (let part in splitAnswer) {
+            ctx.font = "12pt Arial";
+            ctx.fillStyle = "#fff";
+            ctx.textAlign = "start";
+            ctx.fillText(
+              `${splitAnswer[part]}`,
+              450,
+              246 + (index % 2) * 70 + 20 * part
+            );
+          }
+        }
+      } else {
+        if (index < 2) {
+          ctx.font = "14pt Arial";
+          ctx.fillStyle = "#fff";
+          ctx.textAlign = "start";
+          ctx.fillText(`${answer}`, 125, 258 + index * 70);
+        } else {
+          ctx.font = "14pt Arial";
+          ctx.fillStyle = "#fff";
+          ctx.textAlign = "start";
+          ctx.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
+        }
+      }
+
+      // if (index < 2) {
+      //   ctx.beginPath();
+      //   ctx.rect(answerGrid[index].xStart, answerGrid[index].yStart, 275, 50);
+      //   ctx.fillStyle = "#0c76cc";
+      //   ctx.fill();
+      //   ctx.closePath();
+      //   ctx.fillStyle = "#fff";
+      //   ctx.textAlign = "start";
+      //   ctx.fillText(`${answer}`, 125, 258 + index * 70);
+      // } else {
+      //   ctx.beginPath();
+      //   ctx.rect(answerGrid[index].xStart, answerGrid[index].yStart, 275, 50);
+      //   ctx.fillStyle = "#0c76cc";
+      //   ctx.fill();
+      //   ctx.closePath();
+      //   ctx.fillStyle = "#fff";
+      //   ctx.textAlign = "start";
+      //   ctx.fillText(`${answer}`, 450, 258 + (index % 2) * 70);
+      // }
     });
   }
 };

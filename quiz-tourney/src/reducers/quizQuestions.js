@@ -30,7 +30,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         quizQuestions: [
-          ...state.quizQuestions,
+          // ...state.quizQuestions,
           [action.payload[0], action.payload[1]],
         ],
         fetchingQuizQuestions: false,

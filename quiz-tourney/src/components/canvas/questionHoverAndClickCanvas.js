@@ -7,12 +7,13 @@ import { answerHoverArea } from "../Functions";
 const QuestionHoverAndClickCanvas = ({
   answerGrid,
   setPickedAnswer,
-  pickedAnswer,
   allQuizQuestions,
   showCanvas,
   setShowCanvas,
   pickedQuizId,
+  setPickedQuizId,
   questionPicked,
+  setQuestionPicked,
   answerChecked,
 }) => {
   const canvasAnswerHoverRef = useRef(null);
@@ -44,6 +45,8 @@ const QuestionHoverAndClickCanvas = ({
                 filteredQuiz[0][1][questionPicked].id,
                 parseInt(pos),
               ]);
+              // setPickedQuizId(null);
+              // setQuestionPicked(null);
             } else {
               console.log("id undefined", filteredQuiz[0][1][questionPicked]);
             }
@@ -71,6 +74,13 @@ const QuestionHoverAndClickCanvas = ({
     }
   };
 
+  if (canvasAnswerHoverRef.current !== null) {
+    canvasAnswerHoverRef.current.addEventListener(
+      "mousemove",
+      answerMouseMoveHandler,
+      false
+    );
+  }
   useEffect(() => {
     console.log("Answer Response", answerChecked);
     setShowCanvas(false);
@@ -78,14 +88,12 @@ const QuestionHoverAndClickCanvas = ({
 
   useEffect(() => {
     const cnvs = canvasAnswerHoverRef.current;
-
-    cnvs.addEventListener("mousemove", answerMouseMoveHandler, false);
-
+    // console.log(pickedQuizId, questionPicked, allQuizQuestions[0]);
     return () => {
       console.log("removed question listener");
       cnvs.removeEventListener("mousemove", answerMouseMoveHandler, false);
     };
-  }, [showCanvas, allQuizQuestions]);
+  }, [showCanvas]);
 
   return (
     <canvas

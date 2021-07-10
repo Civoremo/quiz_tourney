@@ -41,7 +41,8 @@ export const drawHoveringArea = (cnvs, ctx, mousePosition, playGrid) => {
       mousePosition.x > playGrid[pos].xTop &&
       mousePosition.x < playGrid[pos].xEnd &&
       mousePosition.y > playGrid[pos].yTop &&
-      mousePosition.y < playGrid[pos].yEnd
+      mousePosition.y < playGrid[pos].yEnd &&
+      !playGrid[pos].selected
     ) {
       // console.log(playGrid[pos], mousePosition);
       ctx.beginPath();

@@ -3,9 +3,10 @@
 const columns = 6;
 const rows = 6;
 
-export const drawPlayboard = (cnvs, ctx) => {
+export const drawPlayboard = (cnvs, ctx, playGrid) => {
   // console.log("drawing");
   //   console.log("position of mouse", position.x, position.y);
+  // console.log("PLAYGRID", playGrid);
 
   let squareSizeWidth = ctx.canvas.width / columns;
   let squareSizeHeight = 500 / rows;
@@ -31,14 +32,29 @@ export const drawPlayboard = (cnvs, ctx) => {
       } else {
         let x = squareSizeWidth * i;
         let y = squareSizeHeight * j;
+        let index = i + 6 * (j - 1);
 
-        ctx.beginPath();
-        ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
-        ctx.fillStyle = "blue";
-        ctx.fill();
+        // console.log("COUNT", squareCount);
+        // console.log("draw grid", playGrid[squareCount]);
+        if (!playGrid[index].selected) {
+          ctx.beginPath();
+          ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
+          ctx.fillStyle = "blue";
+          ctx.fill();
 
-        ctx.stroke();
-        ctx.closePath();
+          ctx.stroke();
+          ctx.closePath();
+        } else {
+          ctx.beginPath();
+          ctx.rect(x + 2, y + 2, squareSizeWidth - 5, squareSizeHeight - 5);
+          ctx.fillStyle = "#06143d";
+          ctx.fill();
+          ctx.strokeStyle = "blue";
+          ctx.stroke();
+
+          ctx.stroke();
+          ctx.closePath();
+        }
       }
     }
   }

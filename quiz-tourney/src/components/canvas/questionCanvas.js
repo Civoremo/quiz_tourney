@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 import { drawQuestion } from "../Functions/drawQuestion";
 
@@ -9,10 +9,13 @@ const QuestionCanvas = ({
   questionId,
   allQuizQuestions,
   showCanvas,
+  setShowCanvas,
   answerGrid,
   questionPicked,
 }) => {
   const canvasQuizQuestionRef = useRef(null);
+  const [newQuestionId, setNewQuestionId] = useState(null);
+  const [newQuizId, setNewQuizId] = useState(null);
 
   useEffect(() => {
     // console.log("question picked and time to display");
@@ -25,7 +28,23 @@ const QuestionCanvas = ({
     // } else {
     //   console.log("all quiz questions not loaded");
     // }
-  }, [showCanvas, allQuizQuestions]);
+  }, [showCanvas]);
+
+  useEffect(() => {
+    if (!showCanvas) {
+      console.log(allQuizQuestions[0], questionId);
+      if (quizId !== newQuizId) {
+        setNewQuizId(quizId);
+      }
+      setShowCanvas(true);
+    }
+  }, [allQuizQuestions, newQuestionId]);
+
+  useEffect(() => {
+    if (questionId !== newQuestionId && quizId === newQuizId) {
+      setNewQuestionId(questionId);
+    }
+  }, [questionId, quizId]);
 
   return (
     <canvas

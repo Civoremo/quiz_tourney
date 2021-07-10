@@ -45,7 +45,7 @@ const QuizHoverAndClickCanvas = ({
       console.log("new question asked", quizIndex, questionIndex);
       setPickedQuizId(quizzes[quizIndex].id);
       setQuestionPicked(questionIndex);
-      setShowCanvas(true);
+      // setShowCanvas(true);
     }
   };
 

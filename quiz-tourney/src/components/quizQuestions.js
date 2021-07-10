@@ -23,15 +23,18 @@ const QuizQuestions = props => {
 
   useEffect(() => {
     // console.log("initial viewed " + viewedQuizQuestions.length);
-    if (!viewedQuizQuestions.includes(pickedQuizId)) {
-      if (viewedQuizQuestions[0] === null) {
-        setViewedQuizQuestions([pickedQuizId]);
-      } else {
-        setViewedQuizQuestions([...viewedQuizQuestions, pickedQuizId]);
-      }
-    }
+
+    // if (!viewedQuizQuestions.includes(pickedQuizId)) {
+    //   if (viewedQuizQuestions[0] === null) {
+    //     setViewedQuizQuestions([pickedQuizId]);
+    //   } else {
+    //     setViewedQuizQuestions([...viewedQuizQuestions, pickedQuizId]);
+    //   }
+    // }
+    console.log("new quiz picked");
 
     if (pickedQuizId != null && !viewedQuizQuestions.includes(pickedQuizId)) {
+      console.log("fetching quiz questions", pickedQuizId);
       dispatch(getAllQuizQuestions(pickedQuizId));
       // console.log("fetching questions");
     }
@@ -44,7 +47,7 @@ const QuizQuestions = props => {
 
   useEffect(() => {
     if (pickedAnswer != null) {
-      console.log("picked -> ", pickedAnswer);
+      console.log("picked to check answer to -> ", pickedAnswer);
       // params: (quizId, questionsId, answerId)
       dispatch(
         checkAnswerToQuestion(pickedAnswer[0], pickedAnswer[1], pickedAnswer[2])

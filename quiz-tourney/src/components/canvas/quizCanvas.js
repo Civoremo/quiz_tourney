@@ -17,11 +17,14 @@ const QuizCanvas = props => {
     setPickedAnswer,
     pickedAnswer,
     answerChecked,
+    questionPicked,
+    setQuestionPicked,
   } = props;
-  const { questionPicked, setQuestionPicked } = props;
+  // const { } = props;
   const [playerScore, setPlayerScore] = useState(0);
   const [showCanvas, setShowCanvas] = useState(false);
   const [playGrid, setPlayGrid] = useState([]);
+  const [selectedQuiz, setSelectedQuiz] = useState(null);
   const [answerGrid] = useState([
     { xStart: 100, yStart: 225, xEnd: 375, yEnd: 275 },
     { xStart: 100, yStart: 295, xEnd: 375, yEnd: 350 },
@@ -59,29 +62,6 @@ const QuizCanvas = props => {
   //     clearInterval(interval);
   //   };
   // });
-
-  useEffect(() => {
-    // console.log(
-    //   "setting new quizID and question Index",
-    //   pickedQuizId,
-    //   questionPicked
-    // );
-    if (
-      pickedQuizId !== null &&
-      questionPicked !== null &&
-      allQuizQuestions !== undefined
-    ) {
-      console.log(
-        "quiz selected",
-        quizzes.filter(quiz => quiz.id === pickedQuizId)[0]
-      );
-      if (allQuizQuestions.length > 0)
-        console.log(
-          "question selected",
-          allQuizQuestions[0][1][questionPicked]
-        );
-    }
-  }, [allQuizQuestions]);
 
   return (
     <div>
@@ -128,6 +108,7 @@ const QuizCanvas = props => {
           allQuizQuestions={allQuizQuestions}
           showCanvas={showCanvas}
           answerGrid={answerGrid}
+          questionPicked={questionPicked}
         />
 
         <QuestionHoverAndClickCanvas
@@ -137,8 +118,9 @@ const QuizCanvas = props => {
           showCanvas={showCanvas}
           setShowCanvas={setShowCanvas}
           pickedQuizId={pickedQuizId}
-          pickedAnswer={pickedAnswer}
+          setPickedQuizId={setPickedQuizId}
           questionPicked={questionPicked}
+          setQuestionPicked={setQuestionPicked}
           answerChecked={answerChecked}
         />
       </div>

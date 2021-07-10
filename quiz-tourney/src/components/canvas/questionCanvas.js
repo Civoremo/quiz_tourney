@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 
 import { drawQuestion } from "../Functions/drawQuestion";
 
@@ -10,6 +10,7 @@ const QuestionCanvas = ({
   allQuizQuestions,
   showCanvas,
   answerGrid,
+  questionPicked,
 }) => {
   const canvasQuizQuestionRef = useRef(null);
 
@@ -17,9 +18,14 @@ const QuestionCanvas = ({
     // console.log("question picked and time to display");
     const cnvs = canvasQuizQuestionRef.current;
     const ctx = cnvs.getContext("2d");
+    console.log("quiz questions", allQuizQuestions);
 
+    // if (allQuizQuestions.length > 0) {
     drawQuestion(ctx, answerGrid, quizId, questionId, allQuizQuestions);
-  }, [allQuizQuestions, showCanvas]);
+    // } else {
+    //   console.log("all quiz questions not loaded");
+    // }
+  }, [showCanvas, allQuizQuestions]);
 
   return (
     <canvas

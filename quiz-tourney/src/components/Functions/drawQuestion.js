@@ -10,6 +10,9 @@ export const drawQuestion = (
   let filteredQuiz = allQuizQuestions.filter(quiz => {
     return quiz[0] === quizId;
   });
+  // console.log("QUESTION DRAW", filteredQuiz, quizId, questionIndex);
+  // console.log("QUIZ ID", filteredQuiz[0][0]);
+  // console.log("QUIZ Qs", filteredQuiz[0][1][questionIndex]);
 
   ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 

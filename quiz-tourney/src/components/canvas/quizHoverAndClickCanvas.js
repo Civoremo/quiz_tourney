@@ -42,6 +42,7 @@ const QuizHoverAndClickCanvas = ({
       // console.log("selected changed", playGrid, quizIndex, questionIndex);
       // console.log("quiz selected", quizzes[quizIndex]);
       // console.log("visibility: ", showCanvas);
+      console.log("new question asked", quizIndex, questionIndex);
       setPickedQuizId(quizzes[quizIndex].id);
       setQuestionPicked(questionIndex);
       setShowCanvas(true);
@@ -100,13 +101,21 @@ const QuizHoverAndClickCanvas = ({
     }
   };
 
+  if (canvasHoverRef.current !== null) {
+    canvasHoverRef.current.addEventListener(
+      "mousemove",
+      mouseMoveHandler,
+      false
+    );
+  }
+
   useEffect(() => {
     const cnvs = canvasHoverRef.current;
     // const ctx = cnvs.getContext("2d");
 
-    if (playGrid.length > 0) {
-      cnvs.addEventListener("mousemove", mouseMoveHandler, false);
-    }
+    // if (playGrid.length > 0) {
+    //   cnvs.addEventListener("mousemove", mouseMoveHandler, false);
+    // }
 
     return () => {
       console.log("removed quiz listener");

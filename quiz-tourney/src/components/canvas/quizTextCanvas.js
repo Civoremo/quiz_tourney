@@ -22,7 +22,7 @@ const QuizTextCanvas = ({ quizzes, playGrid, showCanvas }) => {
     const ctx = cnvs.getContext("2d");
     if (quizzes.length > 0) {
       // console.log("loaded text and ready for clicks");
-      console.log("redraw text on squares");
+      // console.log("redraw text on squares");
       if (playGrid.length > 0) populateBoard(ctx, quizzes, playGrid);
     }
   }, [playGrid]);

@@ -107,6 +107,7 @@ const QuizCanvas = props => {
           questionId={questionPicked}
           allQuizQuestions={allQuizQuestions}
           showCanvas={showCanvas}
+          setShowCanvas={setShowCanvas}
           answerGrid={answerGrid}
           questionPicked={questionPicked}
         />

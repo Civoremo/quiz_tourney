@@ -96,7 +96,11 @@ const QuizCanvas = props => {
 
         <PlayerCanvas />
 
-        <PlayerTextCanvas quizzes={quizzes} />
+        <PlayerTextCanvas
+          quizzes={quizzes}
+          answerChecked={answerChecked}
+          questionPicked={questionPicked}
+        />
 
         <QuizHoverAndClickCanvas
           showCanvas={showCanvas}

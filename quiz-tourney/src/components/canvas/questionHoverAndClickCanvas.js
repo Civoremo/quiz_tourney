@@ -106,7 +106,7 @@ const QuestionHoverAndClickCanvas = ({
         visibility: showCanvas ? "visible" : "hidden",
         position: "absolute",
         top: "108px",
-        border: "2px solid green",
+        // border: "2px solid green",
       }}
       onClick={event => {
         answerClickHandler(event, canvasAnswerHoverRef.current);

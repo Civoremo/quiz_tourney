@@ -20,13 +20,14 @@ const PlayerCanvas = ({ quizzes }) => {
     <canvas
       id='player-canvas'
       width={800}
-      height={200}
+      height={195}
       ref={playerCanvasRef}
       style={{
         background: "#020b26",
         zIndex: 5,
         position: "absolute",
-        top: "525px",
+        top: "530px",
+        // border: "1px solid red",
       }}
     />
   );

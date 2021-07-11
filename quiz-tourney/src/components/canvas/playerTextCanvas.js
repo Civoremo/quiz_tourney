@@ -9,15 +9,15 @@ const PlayerTextCanvas = ({ quizzes }) => {
   const [playerInfo, setPlayerInfo] = useState([
     {
       playerName: "Player 1",
-      playerScore: 0,
+      playerScore: 3000,
     },
     {
       playerName: "Player 2",
-      playerScore: 0,
+      playerScore: 900,
     },
     {
       playerName: "Player 3",
-      playerScore: 0,
+      playerScore: 15000,
     },
   ]);
 

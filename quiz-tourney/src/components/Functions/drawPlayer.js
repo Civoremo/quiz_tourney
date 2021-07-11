@@ -5,6 +5,8 @@ export const drawPlayer = (ctx, numPlayers) => {
     return `#` + Math.floor(Math.random() * 16777215).toString(16);
   };
 
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
   for (let i = 0; i < numPlayers; i++) {
     let rightShift = 95 + i * 215;
 

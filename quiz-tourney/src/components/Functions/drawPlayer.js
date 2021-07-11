@@ -1,9 +1,25 @@
 /** @format */
 
 export const drawPlayer = (ctx, numPlayers) => {
+  const randomColor = () => {
+    return `#` + Math.floor(Math.random() * 16777215).toString(16);
+  };
+
   for (let i = 0; i < numPlayers; i++) {
     let rightShift = 95 + i * 215;
 
+    const playerColors = {
+      //   torso: "#24a4b5",
+      //   head: "#bdbc9f",
+      //   hair: "#bf2b11",
+      //   arms: "#258794",
+      torso: randomColor(),
+      head: randomColor(),
+      hair: randomColor(),
+      arms: randomColor(),
+    };
+
+    //bottom of podium
     ctx.beginPath();
     ctx.fillStyle = "#1542ab";
     ctx.moveTo(50 + rightShift, 200);
@@ -36,7 +52,7 @@ export const drawPlayer = (ctx, numPlayers) => {
 
     //torso
     ctx.beginPath();
-    ctx.fillStyle = "#24a4b5";
+    ctx.fillStyle = playerColors.torso;
     ctx.moveTo(60 + rightShift, 100);
     ctx.lineTo(60 + rightShift, 60);
     ctx.lineTo(110 + rightShift, 60);
@@ -76,7 +92,7 @@ export const drawPlayer = (ctx, numPlayers) => {
 
     //hair
     ctx.beginPath();
-    ctx.fillStyle = "#bf2b11";
+    ctx.fillStyle = playerColors.hair;
     ctx.moveTo(65 + rightShift, 40);
     ctx.lineTo(55 + rightShift, 38);
     ctx.lineTo(68 + rightShift, 33);
@@ -103,7 +119,7 @@ export const drawPlayer = (ctx, numPlayers) => {
 
     //left arm
     ctx.beginPath();
-    ctx.fillStyle = "#258794";
+    ctx.fillStyle = playerColors.arms;
     ctx.moveTo(60 + rightShift, 60);
     ctx.lineTo(50 + rightShift, 62);
     ctx.lineTo(45 + rightShift, 105);
@@ -114,7 +130,7 @@ export const drawPlayer = (ctx, numPlayers) => {
 
     //right arm
     ctx.beginPath();
-    ctx.fillStyle = "#258794";
+    ctx.fillStyle = playerColors.arms;
     ctx.moveTo(110 + rightShift, 60);
     ctx.lineTo(120 + rightShift, 62);
     ctx.lineTo(125 + rightShift, 105);

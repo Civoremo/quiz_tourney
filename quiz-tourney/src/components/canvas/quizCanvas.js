@@ -73,11 +73,11 @@ const QuizCanvas = props => {
       <div
         style={{
           height: "750px",
-          background: "grey",
+          background: "#141414",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          border: "1px solid red",
+          // border: "1px solid red",
           position: "relative",
         }}
       >

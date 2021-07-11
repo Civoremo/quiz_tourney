@@ -127,13 +127,13 @@ const QuizHoverAndClickCanvas = ({
     <canvas
       id='canvas-hover-area'
       width={800}
-      height={500}
+      height={505}
       ref={canvasHoverRef}
       style={{
         zIndex: "15",
         position: "absolute",
         top: "23px",
-        border: "2px solid orange",
+        // border: "2px solid orange",
       }}
       onClick={event => {
         clickHandler(event, canvasHoverRef.current, playGrid);

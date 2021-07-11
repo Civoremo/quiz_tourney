@@ -2,6 +2,8 @@
 
 import React, { useRef, useState, useEffect } from "react";
 
+import { drawPlayerText } from "../Functions";
+
 const PlayerTextCanvas = ({ quizzes }) => {
   const playerTextCanvasRef = useRef(null);
   const [playerInfo, setPlayerInfo] = useState([
@@ -41,4 +43,4 @@ const PlayerTextCanvas = ({ quizzes }) => {
   );
 };
 
-export default playerTextCanvasRef;
+export default PlayerTextCanvas;

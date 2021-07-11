@@ -8,6 +8,7 @@ import QuizHoverAndClickCanvas from "./quizHoverAndClickCanvas";
 import QuestionCanvas from "./questionCanvas";
 import QuestionHoverAndClickCanvas from "./questionHoverAndClickCanvas";
 import PlayerCanvas from "./playerCanvas";
+import PlayerTextCanvas from "./playerTextCanvas";
 
 const QuizCanvas = props => {
   const {
@@ -94,6 +95,8 @@ const QuizCanvas = props => {
         />
 
         <PlayerCanvas />
+
+        <PlayerTextCanvas quizzes={quizzes} />
 
         <QuizHoverAndClickCanvas
           showCanvas={showCanvas}

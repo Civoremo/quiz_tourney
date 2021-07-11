@@ -58,8 +58,9 @@ export const populateBoard = (ctxText, quizzes, playGrid) => {
             ctxText.measureText(pointsValue).actualBoundingBoxDescent;
           // Center the points value text
           ctxText.fillText(
-            `$${pointsValue}`,
-            titleSquareWidth * i -
+            `${pointsValue}`,
+            8 +
+              titleSquareWidth * i -
               5 +
               titleSquareWidth / 2 -
               ctxText.measureText(pointsValue).width / 2,

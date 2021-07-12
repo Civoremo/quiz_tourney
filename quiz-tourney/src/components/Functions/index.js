@@ -13,3 +13,5 @@ export { drawQuestion } from "./drawQuestion";
 export { drawPlayer } from "./drawPlayer";
 
 export { drawPlayerText } from "./drawPlayerText";
+
+export { drawMainCanvasText } from "./drawMainCanvasText";

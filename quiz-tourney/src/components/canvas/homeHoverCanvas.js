@@ -21,13 +21,31 @@ const HomeHoverCanvas = () => {
     }
   };
 
-  if (homeHoverCanvas.current !== null) {
-    homeHoverCanvas.current.addEventListener(
-      "mousemove",
-      mainCanvasMouseHandler,
-      false
-    );
-  }
+  //   if (homeHoverCanvas.current !== null) {
+  //     homeHoverCanvas.current.addEventListener(
+  //       "mousemove",
+  //       mainCanvasMouseHandler,
+  //       false
+  //     );
+  //   }
+
+  useEffect(() => {
+    const cnvs = homeHoverCanvas.current;
+    // const ctx = cnvs.getContext("2d");
+
+    if (homeHoverCanvas.current !== null) {
+      console.log("home hover are is good to go");
+      homeHoverCanvas.current.addEventListener(
+        "mousemove",
+        mainCanvasMouseHandler,
+        false
+      );
+    }
+
+    return () => {
+      cnvs.removeEventListener("mousemove", mainCanvasMouseHandler, false);
+    };
+  }, [homeHoverCanvas]);
 
   return (
     <canvas
@@ -37,7 +55,8 @@ const HomeHoverCanvas = () => {
       ref={homeHoverCanvas}
       style={{
         zIndex: 2,
-        zIndex: "absolute",
+        position: "absolute",
+        // border: "1px solid green",
       }}
     />
   );

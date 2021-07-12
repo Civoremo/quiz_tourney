@@ -20,7 +20,17 @@ const MainCanvas = () => {
   }, []);
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        height: "750px",
+        background: "#141414",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        // border: "1px solid red",
+        position: "relative",
+      }}
+    >
       <canvas
         id='main-canvas'
         width={800}
@@ -29,6 +39,8 @@ const MainCanvas = () => {
         style={{
           background: "darkblue",
           positon: "absolute",
+          //   border: "1px solid red",
+          zIndex: 1,
         }}
       />
 

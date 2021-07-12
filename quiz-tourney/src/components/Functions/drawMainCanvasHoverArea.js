@@ -1,7 +1,7 @@
 /** @format */
 
 export const drawMainCanvasHoverArea = (ctx, mousePosition) => {
-  console.log(mousePosition);
+  // console.log(mousePosition);
   ctx.clearRect(0, 0, 800, 700);
   if (
     mousePosition.x > 300 &&

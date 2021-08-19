@@ -67,10 +67,10 @@ const QuizCanvas = props => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <span>Player Score: </span>
         <span>{playerScore}</span>
-      </div>
+      </div> */}
       <div
         style={{
           height: "750px",

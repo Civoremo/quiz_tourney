@@ -23,7 +23,9 @@ function App() {
       <Switch>
         <Route exact path='/quizzes' component={Quizzes} />
       </Switch> */}
-      <Home />
+      <Route exact={true} path={`/`} component={Home} />
+      <Route exact={true} path={`/JSQT`} component={Quizzes} />
+      {/* <Home /> */}
     </div>
   );
 }

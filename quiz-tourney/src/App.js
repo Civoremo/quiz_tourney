@@ -5,12 +5,13 @@ import "./App.css";
 import { Route, NavLink, Switch } from "react-router-dom";
 
 import Quizzes from "./components/quizzes";
-import MainCanvas from "./components/canvas/homeCanvas";
+// import MainCanvas from "./components/canvas/homeCanvas";
+import Home from "./components/home";
 
 function App() {
   return (
     <div className='App'>
-      <header>
+      {/* <header>
         <ul>
           <li>
             <NavLink exact to='/quizzes' activeClassName='activeNavButton'>
@@ -21,8 +22,10 @@ function App() {
       </header>
       <Switch>
         <Route exact path='/quizzes' component={Quizzes} />
-      </Switch>
-      <MainCanvas />
+      </Switch> */}
+      <Route exact={true} path={`/`} component={Home} />
+      <Route exact={true} path={`/JSQT`} component={Quizzes} />
+      {/* <Home /> */}
     </div>
   );
 }
